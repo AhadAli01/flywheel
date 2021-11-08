@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 // Vehicle Routes
 app.use('/api/vehicles', vehicleRoutes);
-// app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 // Middleware - check for errors
 app.use(notFound);

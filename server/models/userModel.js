@@ -1,27 +1,21 @@
 import mongoose from 'mongoose';
-// import Vehicle from './vehicleModel';
+import { vehicleSchema } from './vehicleModel.js';
 
-// const watchlistSchema = mongoose.Schema(
-//   {
-//     name: { type: String, required: true },
-//     //   Buyer ID
-//     user: {
-//       type: mongoose.Schema.Types.ObjectId,
-//       required: true,
-//       ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
-//     },
-//     vehicles: [
-//       {
-//         type: mongoose.Schema.Types.ObjectId,
-//         required: true,
-//         ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
-//       },
-//     ],
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
+const watchlistSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    //   Buyer ID
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    vehicles: [vehicleSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const userSchema = mongoose.Schema(
   {
@@ -43,7 +37,7 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    // watchlist: watchlistSchema,
+    watchlist: watchlistSchema,
   },
   {
     timestamps: true,

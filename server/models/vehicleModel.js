@@ -11,7 +11,7 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-const vehicleSchema = mongoose.Schema(
+export const vehicleSchema = mongoose.Schema(
   {
     //   Seller ID
     user: {
