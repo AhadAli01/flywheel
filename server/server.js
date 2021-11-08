@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import vehicleRoutes from './routes/vehicleRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+
+// !MAKE SURE YOU GUYS GIT PULL BEFORE AND AFTER EVERYTIME YOU MAKE A CHANGE
 
 // Config
 dotenv.config();
@@ -16,6 +19,7 @@ app.get('/', (req, res) => {
 
 // Vehicle Routes
 app.use('/api/vehicles', vehicleRoutes);
+// app.use('/api/users', userRoutes);
 
 // Middleware - check for errors
 app.use(notFound);

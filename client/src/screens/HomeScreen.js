@@ -20,11 +20,25 @@ const HomeScreen = () => {
     <>
       <h1>Vehicles</h1>
       <Row>
-        {vehicles.map((vehicle) => (
-          <Col key={vehicle._id} sm={12} md={6} lg={4} xl={3}>
-            <Vehicle vehicle={vehicle} />
-          </Col>
-        ))}
+        <Col xl={9} className='pr-5'>
+          <Row>
+            {vehicles.map((vehicle) => (
+              <Col key={vehicle._id} sm={12} lg={6} xl={4}>
+                <Vehicle vehicle={vehicle} />
+              </Col>
+            ))}
+          </Row>
+        </Col>
+        <Col xl={3}>
+          <h3 className='d-flex justify-content-center'>Watchlist</h3>
+          <Row>
+            {vehicles.map((vehicle) => (
+              <Col key={vehicle._id} xl={12}>
+                <Vehicle vehicle={vehicle} />
+              </Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </>
   );

@@ -6,6 +6,9 @@ import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
 import VehicleScreen from './screens/VehicleScreen';
 
+
+// !MAKE SURE YOU GUYS GIT PULL BEFORE AND AFTER EVERYTIME YOU MAKE A CHANGE
+
 const App = () => {
   return (
     <Router>
