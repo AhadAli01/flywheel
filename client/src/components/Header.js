@@ -1,6 +1,15 @@
 import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavItem } from 'react-bootstrap';
+
+const userStorageExists = sessionStorage.length;
+const data = sessionStorage.getItem("userData");
+const object = JSON.parse(data);
+
+const resetStorage = () => {
+  sessionStorage.clear();
+  window.location.reload();
+}
 
 const Header = () => {
   return (
@@ -13,7 +22,29 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              {userStorageExists > 0 ?
+              <div>
+
+              <Nav.Link>
+                <i className='fas fa-tachometer'></i> Welcome {object.name}!
+              </Nav.Link>
+
               <LinkContainer to='/dashboard'>
+                <Nav.Link>
+                  <i className='fas fa-tachometer'></i> Dashboard
+                </Nav.Link>
+              </LinkContainer>
+
+              <LinkContainer to='/'>
+                <Nav.Link onClick={resetStorage}>
+                  <i className='fas fa-user'></i> Logout
+                </Nav.Link>
+              </LinkContainer>
+              
+              </div>
+              :
+              <div>
+                <LinkContainer to='/dashboard'>
                 <Nav.Link>
                   <i className='fas fa-tachometer'></i> Dashboard
                 </Nav.Link>
@@ -24,6 +55,9 @@ const Header = () => {
                   <i className='fas fa-user'></i> Sign In
                 </Nav.Link>
               </LinkContainer>
+
+              </div>
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>

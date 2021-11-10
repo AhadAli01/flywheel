@@ -48,11 +48,36 @@ router.post(
         res.send({ errMessage: 'Invalid email/password' });
       }
     } else {
-      // res.sendStatus(401);
-      // throw new Error("Invalid email/password");
       res.send({ errMessage: 'Invalid email/password' });
     }
   })
+);
+
+router.post('/signup', asyncHandler(async (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+
+  if (password === confirmPassword) {
+    const newUser = new User({
+      name: name,
+      email: email,
+      password: bcrypt.hashSync(confirmPassword, 10),
+      isAdmin: false
+    });
+
+    newUser.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({ successMessage: "Successfully registered user"})
+      }
+    })
+  } else {
+    res.send({ errMessage: "The passwords do not match. Try again."})
+  }
+})
 );
 
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users

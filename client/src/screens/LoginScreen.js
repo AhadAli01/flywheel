@@ -1,42 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const LoginScreen = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
+  const history = useHistory();
+
   const login = (event) => {
     event.preventDefault();
     axios.post('/api/users/login', { email: loginEmail, password: loginPassword }).then((response) => {
-        //const { data } = response;
-
         if(response.data.errMessage) {
             alert(response.data.errMessage);
         } else {
-            alert("Welcome " + response.data.name);
+            sessionStorage.setItem("userData", JSON.stringify(response.data));
+            history.push("/");
+            window.location.reload();
         }
-        //console.log(response.data[0]);
       });
   };
-
-  // const submitHandler = (event) => {
-  //     event.preventDefault();
-
-  //     try {
-  //         const config = {
-  //             headers: {
-  //                 "Content-Type": "application/json"
-  //             },
-  //         };
-
-  //         const userLogin = async () => {
-  //             const { userdata } = await axios.post("/api/users/login", config);
-  //         }
-  //     } catch (error) {
-
-  //     }
-  // }
 
   return (
     <div className='containerauth'>
