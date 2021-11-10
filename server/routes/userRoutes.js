@@ -5,7 +5,6 @@ import Vehicle from '../models/vehicleModel.js';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
-
 // @desc    Fetch all users
 // @route   GET /api/users
 // @access  Public - should be private (to admin user) once you implement login/register and admin functionality
@@ -40,31 +39,19 @@ router.post(
     const email = req.body.email;
     const password = req.body.password;
 
-   // res.json(email);
+    const user = await User.findOne({ email: email });
 
-   const user = await User.findOne({ email: email});
-  
-   if (user) {
-    if (await user.matchPassword(password)) {
-      res.json(user);
-    }
-  } else {
-    res.status(401);
-    throw new Error("Invalid email/password");
-  }
-   
-
-     /* User.findOne({ email: email }, (err, userFound) => {
-      if (err) {
-        console.log(err);
+    if (user) {
+      if (await user.matchPassword(password)) {
+        res.send(user);
       } else {
-        if (userFound) {
-          if (userFound.password === password) {
-            res.json(userFound);
-          }
-        }
+        res.send({ errMessage: 'Invalid email/password' });
       }
-    }); */
+    } else {
+      // res.sendStatus(401);
+      // throw new Error("Invalid email/password");
+      res.send({ errMessage: 'Invalid email/password' });
+    }
   })
 );
 
