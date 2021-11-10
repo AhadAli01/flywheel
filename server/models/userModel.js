@@ -18,6 +18,26 @@ const watchlistSchema = mongoose.Schema(
   }
 );
 
+const profileSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+
+    phone: { type: Number, required: true },
+
+    address: { type: String, required: true},
+
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Profile = mongoose.model('Profile', profileSchema);
+
 const userSchema = mongoose.Schema(
   {
     name: {
