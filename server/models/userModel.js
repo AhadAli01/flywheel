@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { vehicleSchema } from './vehicleModel.js';
+import bcrypt from 'bcryptjs';
 
 const watchlistSchema = mongoose.Schema(
   {
@@ -43,6 +44,10 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 const User = mongoose.model('User', userSchema);
 
