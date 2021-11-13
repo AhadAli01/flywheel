@@ -33,6 +33,7 @@ router.get(
   })
 );
 
+// TODO: Mush pls add the documentation
 router.post(
   '/login',
   asyncHandler(async (req, res) => {
@@ -107,6 +108,27 @@ router.post(
       }
     });
 
+    if (password === confirmPassword) {
+      const newUser = new User({
+        name: name,
+        email: email,
+        password: bcrypt.hashSync(confirmPassword, 10),
+        isAdmin: false,
+      });
+
+      newUser.save(function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send({ successMessage: 'Successfully registered user' });
+        }
+      });
+    } else {
+      res.send({ errMessage: 'The passwords do not match. Try again.' });
+    }
+  })
+);
+
     // const user = req.body;
     // const newUser = new User(user);
     // await newUser.save();
@@ -116,5 +138,22 @@ router.post(
 );
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist
+
+// @desc    Get user's watchlist
+// @route   GET /api/users/:id/watchlist
+// @access  Public
+router.get(
+  '/:id/watchlist',
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      res.json(user.watchlist);
+    } else {
+      res.status(404);
+      throw new Error('user not found');
+    }
+  })
+);
 
 export default router;

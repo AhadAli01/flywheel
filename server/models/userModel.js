@@ -5,12 +5,12 @@ import bcrypt from 'bcryptjs';
 const watchlistSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    //   Buyer ID
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
-    },
+    // //   Buyer ID
+    // user: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    // },
     vehicles: [vehicleSchema],
   },
   {
@@ -28,8 +28,7 @@ const profileSchema = mongoose.Schema(
 
     phone: { type: Number, required: true },
 
-    address: { type: String, required: true},
-
+    address: { type: String, required: true },
   },
   {
     timestamps: true,

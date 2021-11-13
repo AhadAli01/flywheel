@@ -11,10 +11,14 @@ const VehicleScreen = ({ match }) => {
     const fetchVehicle = async () => {
       const { data } = await axios.get(`/api/vehicles/${match.params.id}`);
 
+      // console.log(data);
+      // alert(data);
       setVehicle(data);
     };
 
-    fetchVehicle();
+    fetchVehicle()
+      .then(console.log(JSON.parse(localStorage.getItem('userData'))))
+      .then(console.log(vehicle));
   }, [match]);
 
   return (
@@ -70,6 +74,11 @@ const VehicleScreen = ({ match }) => {
                 {/* Check if sold and replace false */}
                 <Button className='w-100' type='button' disabled={false}>
                   Make a Bid
+                </Button>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button className='w-100' type='button' disabled={false}>
+                  Add to Watchlist
                 </Button>
               </ListGroup.Item>
             </ListGroup>

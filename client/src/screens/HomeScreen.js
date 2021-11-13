@@ -5,6 +5,7 @@ import Vehicle from '../components/Vehicle';
 
 const HomeScreen = () => {
   const [vehicles, setVehicles] = useState([]);
+  const [watchlistV, setWatchlistV] = useState([]);
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -14,6 +15,10 @@ const HomeScreen = () => {
     };
 
     fetchVehicles();
+    const data = JSON.parse(localStorage.getItem('userData'));
+    console.log(data);
+    console.log(data._id);
+    console.log(data.name);
   }, []);
 
   return (
@@ -29,8 +34,8 @@ const HomeScreen = () => {
             ))}
           </Row>
         </Col>
-        <Col xl={3}>
-          <h3 className='d-flex justify-content-center'>Watchlist</h3>
+        <Col xl={3} style={{ border: '2px solid black' }}>
+          <h3 className='d-flex justify-content-center pt-3'>Watchlist</h3>
           <Row>
             {vehicles.map((vehicle) => (
               <Col key={vehicle._id} xl={12}>
