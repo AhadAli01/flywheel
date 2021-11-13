@@ -10,13 +10,15 @@ const LoginScreen = () => {
 
   const login = (event) => {
     event.preventDefault();
-    axios.post('/api/users/login', { email: loginEmail, password: loginPassword }).then((response) => {
-        if(response.data.errMessage) {
-            alert(response.data.errMessage);
+    axios
+      .post('/api/users/login', { email: loginEmail, password: loginPassword })
+      .then((response) => {
+        if (response.data.errMessage) {
+          alert(response.data.errMessage);
         } else {
-            sessionStorage.setItem("userData", JSON.stringify(response.data));
-            history.push("/");
-            window.location.reload();
+          localStorage.setItem('userData', JSON.stringify(response.data));
+          history.push('/');
+          window.location.reload();
         }
       });
   };
@@ -27,8 +29,12 @@ const LoginScreen = () => {
         Go Back Home
       </Link>
       <h1>Welcome Back!</h1>
-      <div className="authImage">
-        <img src="https://goservicexpert.com/uploads/services/71386.png" width="100" height="100"></img>
+      <div className='authImage'>
+        <img
+          src='https://goservicexpert.com/uploads/services/71386.png'
+          width='100'
+          height='100'
+        ></img>
       </div>
       <form onSubmit={login}>
         <input

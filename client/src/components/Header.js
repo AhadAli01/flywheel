@@ -2,12 +2,12 @@ import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Container, Navbar, Nav, NavItem } from 'react-bootstrap';
 
-const userStorageExists = sessionStorage.length;
-const data = sessionStorage.getItem("userData");
+const userStorageExists = localStorage.length;
+const data = localStorage.getItem("userData");
 const object = JSON.parse(data);
 
 const resetStorage = () => {
-  sessionStorage.clear();
+  localStorage.clear();
   window.location.reload();
 }
 
