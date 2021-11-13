@@ -53,33 +53,67 @@ router.post(
   })
 );
 
-router.post('/signup', asyncHandler(async (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
+router.post(
+  '/signup',
+  asyncHandler(async (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
 
-  if (password === confirmPassword) {
+    if (password === confirmPassword) {
+      const newUser = new User({
+        name: name,
+        email: email,
+        password: bcrypt.hashSync(confirmPassword, 10),
+        isAdmin: false,
+      });
+
+      newUser.save(function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send({ successMessage: 'Successfully registered user' });
+        }
+      });
+    } else {
+      res.send({ errMessage: 'The passwords do not match. Try again.' });
+    }
+  })
+);
+
+//fix this...
+router.post(
+  '/dashboard',
+  asyncHandler(async (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const address = req.body.address;
+
     const newUser = new User({
       name: name,
       email: email,
-      password: bcrypt.hashSync(confirmPassword, 10),
-      isAdmin: false
+      //password: bcrypt.hashSync(confirmPassword, 10),
+      phone: phone,
+      address: address
     });
 
-    newUser.save(function(err) {
+    newUser.save(function (err) {
       if (err) {
         console.log(err);
       } else {
-        res.send({ successMessage: "Successfully registered user"})
+        res.send({ successMessage: 'Successfully updated profile' });
       }
-    })
-  } else {
-    res.send({ errMessage: "The passwords do not match. Try again."})
-  }
-})
-);
+    });
 
+    // const user = req.body;
+    // const newUser = new User(user);
+    // await newUser.save();
+  
+    // res.json(user);
+  })
+);
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist
 
