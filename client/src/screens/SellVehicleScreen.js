@@ -7,6 +7,7 @@ import FormContainer from '../components/FormContainer';
 const SellVehicle = ({ match, history }) => {
   const productId = match.params.id;
 
+  // Vehicles - General
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
   const [bodyStyle, setBodyStyle] = useState('');
@@ -18,7 +19,19 @@ const SellVehicle = ({ match, history }) => {
   const [image, setImage] = useState('');
   const [price, setPrice] = useState(0);
 
-  // useEffect(() => {}, []);
+  // Sedan
+  const [noOfDoors, setNoOfDoors] = useState(0);
+  const [length, setLength] = useState(0);
+
+  // SUV
+  const [trunkSize, setTrunkSize] = useState(0);
+
+  // Van
+  const [noOfSeats, setNoOfSeats] = useState(0);
+
+  // Truck
+  const [towCapacity, setTowCapacity] = useState(0);
+  const [bedWeightCapacity, setBedWeightCapacity] = useState(0);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -53,8 +66,85 @@ const SellVehicle = ({ match, history }) => {
     try {
       const { data } = await axios.post(`/api/vehicles`, vehicle, config);
       console.log(data);
+      await addTypeOfVehicle(e, data._id);
+      alert('Vehicle added successfully!');
+      history.push('/');
     } catch (err) {
       alert(err.response.data.message);
+    }
+  };
+
+  const addTypeOfVehicle = async (e, vehicle) => {
+    if (bodyStyle.toLowerCase() === 'sedan') {
+      const sedan = {
+        vehicle,
+        noOfDoors,
+        length,
+      };
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      try {
+        const { data } = await axios.post(`/api/vehicles/sedan`, sedan, config);
+        console.log(data);
+      } catch (err) {
+        alert(err.response.data.message);
+      }
+    } else if (bodyStyle.toLowerCase() === 'suv') {
+      const suv = {
+        vehicle,
+        trunkSize,
+      };
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      try {
+        const { data } = await axios.post(`/api/vehicles/suv`, suv, config);
+        console.log(data);
+      } catch (err) {
+        alert(err.response.data.message);
+      }
+    } else if (bodyStyle.toLowerCase() === 'van') {
+      const van = {
+        vehicle,
+        noOfSeats,
+      };
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      try {
+        const { data } = await axios.post(`/api/vehicles/van`, van, config);
+        console.log(data);
+      } catch (err) {
+        alert(err.response.data.message);
+      }
+    } else if (bodyStyle.toLowerCase() === 'truck') {
+      const truck = {
+        vehicle,
+        towCapacity,
+        bedWeightCapacity,
+      };
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      try {
+        const { data } = await axios.post(`/api/vehicles/truck`, truck, config);
+        console.log(data);
+      } catch (err) {
+        alert(err.response.data.message);
+      }
     }
   };
 
@@ -84,16 +174,6 @@ const SellVehicle = ({ match, history }) => {
               placeholder='Enter model'
               value={model}
               onChange={(e) => setModel(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group controlId='bodyStyle'>
-            <Form.Label>Body Style</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter body style (ex. sedan, SUV, truck, van)'
-              value={bodyStyle}
-              onChange={(e) => setBodyStyle(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
@@ -166,6 +246,88 @@ const SellVehicle = ({ match, history }) => {
               onChange={(e) => setPrice(e.target.value)}
             ></Form.Control>
           </Form.Group>
+
+          <Form.Group controlId='bodyStyle'>
+            <Form.Label>Body Style</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter body style (ex. sedan, SUV, truck, van)'
+              value={bodyStyle}
+              onChange={(e) => setBodyStyle(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
+          {bodyStyle.toLowerCase() === 'sedan' ? (
+            <>
+              <Form.Group controlId='noOfDoors'>
+                <Form.Label>Number of Doors</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter number of doors'
+                  value={noOfDoors}
+                  onChange={(e) => setNoOfDoors(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId='length'>
+                <Form.Label>Length</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter length'
+                  value={length}
+                  onChange={(e) => setLength(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+            </>
+          ) : bodyStyle.toLowerCase() === 'suv' ? (
+            <>
+              <Form.Group controlId='trunkSize'>
+                <Form.Label>Trunk Size</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter trunk size'
+                  value={trunkSize}
+                  onChange={(e) => setTrunkSize(e.target.value)}
+                ></Form.Control>{' '}
+              </Form.Group>
+            </>
+          ) : bodyStyle.toLowerCase() === 'van' ? (
+            <>
+              <Form.Group controlId='noOfSeats'>
+                <Form.Label>Number of Seats</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter number of seats'
+                  value={noOfSeats}
+                  onChange={(e) => setNoOfSeats(e.target.value)}
+                ></Form.Control>{' '}
+              </Form.Group>
+            </>
+          ) : bodyStyle.toLowerCase() === 'truck' ? (
+            <>
+              <Form.Group controlId='towCapacity'>
+                <Form.Label>Tow Capacity</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter tow capacity'
+                  value={towCapacity}
+                  onChange={(e) => setTowCapacity(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId='bedWeightCapacity'>
+                <Form.Label>Bed Weight Capacity</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter bed weight capacity'
+                  value={bedWeightCapacity}
+                  onChange={(e) => setBedWeightCapacity(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+            </>
+          ) : (
+            <h5 className='pt-3 text-danger'> * Please list body style * </h5>
+          )}
 
           <Button type='submit' variant='primary' className='my-5'>
             Update

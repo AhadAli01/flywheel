@@ -85,6 +85,73 @@ export const vehicleSchema = mongoose.Schema(
   }
 );
 
+const truckSchema = mongoose.Schema(
+  {
+    //   VIN
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    towCapacity: { type: Number, required: true },
+    bedWeightCapacity: { type: Number, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const suvSchema = mongoose.Schema(
+  {
+    //   VIN
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    trunkSize: { type: Number, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const vanSchema = mongoose.Schema(
+  {
+    //   VIN
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    noOfSeats: { type: Number, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const sedanSchema = mongoose.Schema(
+  {
+    //   VIN
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    noOfDoors: { type: Number, required: true },
+    length: { type: Number, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
-export default Vehicle;
+const Sedan = mongoose.model('Sedan', sedanSchema);
+const Suv = mongoose.model('Suv', suvSchema);
+const Van = mongoose.model('Van', vanSchema);
+const Truck = mongoose.model('Truck', truckSchema);
+
+export { Vehicle, Sedan, Suv, Van, Truck };

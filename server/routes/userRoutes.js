@@ -1,7 +1,7 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
-import Vehicle from '../models/vehicleModel.js';
+import { Vehicle } from '../models/vehicleModel.js';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
