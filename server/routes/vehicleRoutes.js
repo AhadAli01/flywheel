@@ -31,4 +31,24 @@ router.get(
   })
 );
 
+// @desc    Add/sell a vehicle
+// @route   POST /api/vehicles
+// @access  Public
+router.post(
+  '/',
+  asyncHandler(async (req, res) => {
+    // const vehicles = await Vehicle.find({});
+    // res.json(vehicles);
+    const vehicle = req.body;
+
+    if (vehicle) {
+      await Vehicle.create(vehicle);
+      res.json(vehicle);
+    } else {
+      res.status(404);
+      throw new Error('Invalid user data');
+    }
+  })
+);
+
 export default router;

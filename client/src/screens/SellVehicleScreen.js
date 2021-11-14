@@ -20,7 +20,7 @@ const SellVehicle = ({ match, history }) => {
 
   // useEffect(() => {}, []);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     const userInfo = JSON.parse(localStorage.getItem('userData'));
@@ -44,6 +44,18 @@ const SellVehicle = ({ match, history }) => {
       reviews: [],
     };
     console.log(vehicle);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const { data } = await axios.post(`/api/vehicles`, vehicle, config);
+      console.log(data);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   return (
