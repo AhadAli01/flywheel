@@ -97,7 +97,7 @@ router.post(
       email: email,
       //password: bcrypt.hashSync(confirmPassword, 10),
       phone: phone,
-      address: address
+      address: address,
     });
 
     newUser.save(function (err) {
@@ -129,13 +129,14 @@ router.post(
   })
 );
 
-    // const user = req.body;
-    // const newUser = new User(user);
-    // await newUser.save();
-  
-    // res.json(user);
-  })
-);
+// const user = req.body;
+// const newUser = new User(user);
+// await newUser.save();
+
+// res.json(user);
+//   })
+// );
+
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist
 
@@ -152,6 +153,28 @@ router.get(
     } else {
       res.status(404);
       throw new Error('user not found');
+    }
+  })
+);
+
+// @desc    Add vehicle to user's watchlist
+// @route   POST /api/users/:id/watchlist
+// @access  Public
+router.post(
+  '/:id/watchlist',
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    const vehicle = req.body;
+
+    if (vehicle) {
+      // res.json(vehicle);
+      user.watchlist.push(vehicle);
+      await user.save();
+      res.json(user.watchlist);
+    } else {
+      res.status(404);
+      throw new Error('vehicle not found');
     }
   })
 );

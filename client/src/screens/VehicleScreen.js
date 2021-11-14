@@ -11,15 +11,30 @@ const VehicleScreen = ({ match }) => {
     const fetchVehicle = async () => {
       const { data } = await axios.get(`/api/vehicles/${match.params.id}`);
 
-      // console.log(data);
-      // alert(data);
       setVehicle(data);
     };
 
-    fetchVehicle()
-      .then(console.log(JSON.parse(localStorage.getItem('userData'))))
-      .then(console.log(vehicle));
+    fetchVehicle();
   }, [match]);
+
+  const addWatchlistHandler = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    console.log(vehicle);
+    const userInfo = JSON.parse(localStorage.getItem('userData'));
+    console.log(userInfo);
+    console.log(userInfo._id);
+    
+    const { data } = await axios.post(
+      `/api/users/${userInfo._id}/watchlist`,
+      vehicle,
+      config
+    );
+    console.log(data);
+  };
 
   return (
     <>
@@ -77,7 +92,12 @@ const VehicleScreen = ({ match }) => {
                 </Button>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button className='w-100' type='button' disabled={false}>
+                <Button
+                  className='w-100'
+                  type='button'
+                  disabled={false}
+                  onClick={addWatchlistHandler}
+                >
                   Add to Watchlist
                 </Button>
               </ListGroup.Item>

@@ -14,11 +14,19 @@ const HomeScreen = () => {
       setVehicles(data);
     };
 
+    const fetchWatchlist = async () => {
+      const userInfo = JSON.parse(localStorage.getItem('userData'));
+
+      const { data } = await axios.get(`/api/users/${userInfo._id}/watchlist`);
+      setWatchlistV(data);
+    };
+
     fetchVehicles();
-    const data = JSON.parse(localStorage.getItem('userData'));
-    console.log(data);
-    console.log(data._id);
-    console.log(data.name);
+    fetchWatchlist();
+    // const data = JSON.parse(localStorage.getItem('userData'));
+    // console.log(data);
+    // console.log(data._id);
+    // console.log(data.name);
   }, []);
 
   return (
@@ -37,9 +45,9 @@ const HomeScreen = () => {
         <Col xl={3} style={{ border: '2px solid black' }}>
           <h3 className='d-flex justify-content-center pt-3'>Watchlist</h3>
           <Row>
-            {vehicles.map((vehicle) => (
-              <Col key={vehicle._id} xl={12}>
-                <Vehicle vehicle={vehicle} />
+            {watchlistV.map((wV) => (
+              <Col key={wV._id} xl={12}>
+                <Vehicle vehicle={wV} />
               </Col>
             ))}
           </Row>
