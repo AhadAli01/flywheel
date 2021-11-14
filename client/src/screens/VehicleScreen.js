@@ -27,13 +27,16 @@ const VehicleScreen = ({ match }) => {
     const userInfo = JSON.parse(localStorage.getItem('userData'));
     console.log(userInfo);
     console.log(userInfo._id);
-    
-    const { data } = await axios.post(
-      `/api/users/${userInfo._id}/watchlist`,
-      vehicle,
-      config
-    );
-    console.log(data);
+    try {
+      const { data } = await axios.post(
+        `/api/users/${userInfo._id}/watchlist`,
+        vehicle,
+        config
+      );
+      console.log(data);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   return (

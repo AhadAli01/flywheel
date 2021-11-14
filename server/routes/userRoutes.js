@@ -168,6 +168,15 @@ router.post(
     const vehicle = req.body;
 
     if (vehicle) {
+      const alreadyAdded = user.watchlist.find(
+        (w) => w._id.toString() === vehicle._id.toString()
+      );
+
+      if (alreadyAdded) {
+        res.status(400);
+        throw new Error('Vehicle already added');
+      }
+
       // res.json(vehicle);
       user.watchlist.push(vehicle);
       await user.save();
