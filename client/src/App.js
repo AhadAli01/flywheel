@@ -7,9 +7,8 @@ import HomeScreen from './screens/HomeScreen';
 import VehicleScreen from './screens/VehicleScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import Dashboard from './screens/Dashboard';
-
-
+import Dashboard from './screens/DashboardScreen';
+import SellVehicle from './screens/SellVehicleScreen';
 
 // !MAKE SURE YOU GUYS GIT PULL BEFORE AND AFTER EVERYTIME YOU MAKE A CHANGE
 
@@ -24,6 +23,7 @@ const App = () => {
           <Route path='/login' component={LoginScreen} />
           <Route path='/signup' component={SignUpScreen} />
           <Route path='/dashboard' component={Dashboard} />
+          <Route path='/sell' component={SellVehicle} />
         </Container>
       </main>
       <Footer />

@@ -1,15 +1,15 @@
 import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Container, Navbar, Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer, NavDropdown } from 'react-router-bootstrap';
+import { Container, Navbar, Nav, NavItem, Row, Col } from 'react-bootstrap';
 
 const userStorageExists = localStorage.length;
-const data = localStorage.getItem("userData");
+const data = localStorage.getItem('userData');
 const object = JSON.parse(data);
 
 const resetStorage = () => {
   localStorage.clear();
   window.location.reload();
-}
+};
 
 const Header = () => {
   return (
@@ -22,42 +22,53 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              {userStorageExists > 0 ?
-              <div>
+              {userStorageExists > 0 ? (
+                <div>
+                  <Row>
+                    <Col>
+                      <LinkContainer to='/sell'>
+                        <Nav.Link>
+                          <i className='fas fa-car'></i> Sell A Vehicle
+                        </Nav.Link>
+                      </LinkContainer>
+                    </Col>
+                    <Col>
+                      <Nav.Link>
+                        <i className='fas fa-door-open'></i> Welcome{' '}
+                        {object.name}!
+                      </Nav.Link>
+                    </Col>
+                    <Col>
+                      <LinkContainer to='/dashboard'>
+                        <Nav.Link>
+                          <i className='fas fa-tachometer'></i> Dashboard
+                        </Nav.Link>
+                      </LinkContainer>
+                    </Col>
+                    <Col>
+                      <LinkContainer to='/'>
+                        <Nav.Link onClick={resetStorage}>
+                          <i className='fas fa-user'></i> Logout
+                        </Nav.Link>
+                      </LinkContainer>
+                    </Col>
+                  </Row>
+                </div>
+              ) : (
+                <div>
+                  <LinkContainer to='/dashboard'>
+                    <Nav.Link>
+                      <i className='fas fa-tachometer'></i> Dashboard
+                    </Nav.Link>
+                  </LinkContainer>
 
-              <Nav.Link>
-                <i className='fas fa-tachometer'></i> Welcome {object.name}!
-              </Nav.Link>
-
-              <LinkContainer to='/dashboard'>
-                <Nav.Link>
-                  <i className='fas fa-tachometer'></i> Dashboard
-                </Nav.Link>
-              </LinkContainer>
-
-              <LinkContainer to='/'>
-                <Nav.Link onClick={resetStorage}>
-                  <i className='fas fa-user'></i> Logout
-                </Nav.Link>
-              </LinkContainer>
-              
-              </div>
-              :
-              <div>
-                <LinkContainer to='/dashboard'>
-                <Nav.Link>
-                  <i className='fas fa-tachometer'></i> Dashboard
-                </Nav.Link>
-              </LinkContainer>
-
-              <LinkContainer to='/login'>
-                <Nav.Link>
-                  <i className='fas fa-user'></i> Sign In
-                </Nav.Link>
-              </LinkContainer>
-
-              </div>
-              }
+                  <LinkContainer to='/login'>
+                    <Nav.Link>
+                      <i className='fas fa-user'></i> Sign In
+                    </Nav.Link>
+                  </LinkContainer>
+                </div>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
