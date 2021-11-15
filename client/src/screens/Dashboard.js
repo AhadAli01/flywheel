@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Row, Col, Table } from 'react-bootstrap';
-import { useHistory, Redirect } from 'react-router-dom';
+import { Form, Row, Col } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-
-
-const data = localStorage.getItem("userData");
-const object = JSON.parse(data);
-
-const Dashboard = ({auth}) => {
+const Dashboard = () => {
   const [profile, setProfile] = useState([]);
   const [newName, setNewName] = useState('');
   const [newAddress, setNewAddress] = useState('');
-  const [newPhone, setNewPhone] = useState('');
+  const [newPhone, setNewPhone] = useState(0);
   const [newEmail, setNewEmail] = useState('');
 
-  // useEffect(() => {
-  //   axios.get('/api/users').then((response) => {
-  //     setProfile(response.data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    axios.get('/api/users').then((response) => {
+      setProfile(response.data);
+    });
+  }, []);
 
   const history = useHistory();
-  
-  if(auth === 0){
-    return(<Redirect to = "/login"/>);
-  }
-  else{
-
 
   const update = (event) => {
     event.preventDefault();
     axios
       .post('/api/users/dashboard', {
-        //user: object._id,
+        name: newName,
         address: newAddress,
         phone: newPhone,
+        email: newEmail,
       })
       .then((response) => {
+        setProfile([
+          ...profile,
+          {
+            name: newName,
+            address: newAddress,
+            phone: newPhone,
+            email: newEmail,
+          },
+        ]);
         if (response.data.errMessage) {
           alert(response.data.errMessage);
         } else {
-          sessionStorage.setItem('profileData', JSON.stringify(response.data));
+          sessionStorage.setItem('userData', JSON.stringify(response.data));
+          history.push('/dashboard');
           window.location.reload();
         }
       });
@@ -49,6 +49,18 @@ const Dashboard = ({auth}) => {
 
   return (
     <div className="App">
+    <div className="usersDisplay">
+      {profile.map((user) => {
+        return (
+          <div>
+            <h1>Name: {user.name}</h1>
+            <h1>email: {user.email}</h1>
+            <h1>address: {user.address}</h1>
+          </div>
+        );
+      })}
+    </div>
+
     <Row>
       <Col md={3}>
         <h3>User Profile</h3>
@@ -59,7 +71,7 @@ const Dashboard = ({auth}) => {
             onChange={(event) => {
               setNewName(event.target.value);
             }}
-            placeholder={object.name}
+            placeholder='Enter Name'
           />
           <input
             className='parbirInputs'
@@ -67,7 +79,7 @@ const Dashboard = ({auth}) => {
             onChange={(event) => {
               setNewEmail(event.target.value);
             }}
-            placeholder={object.email}
+            placeholder='Enter Email'
           />
           <input
             className='parbirInputs'
@@ -85,28 +97,14 @@ const Dashboard = ({auth}) => {
             }}
             placeholder='Enter Address'
           />
-          <button className='parbirButton' type='submit'>
+          <button className='parbirButton' type='submit' onClick ={update}>
             Update
           </button>
         </Form>
       </Col>
-      <Col md={9}>
-            <h2>Orders</h2>
-            <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>Vehicle Name</th>
-                <th>Bid Amount</th>
-                <th>Issued Time</th>
-                <th>Expired Time</th>
-              </tr>
-            </thead>
-            </Table>
-      </Col>
     </Row>
     </div>
   );
-}
 };
 
 export default Dashboard;

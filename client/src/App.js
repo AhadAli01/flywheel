@@ -9,6 +9,8 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import Dashboard from './screens/DashboardScreen';
 import SellVehicle from './screens/SellVehicleScreen';
+//import Dashboard from './screens/Dashboard';
+const userStorageExists = localStorage.length;
 
 // !MAKE SURE YOU GUYS GIT PULL BEFORE AND AFTER EVERYTIME YOU MAKE A CHANGE
 
@@ -22,8 +24,11 @@ const App = () => {
           <Route path='/vehicle/:id' component={VehicleScreen} />
           <Route path='/login' component={LoginScreen} />
           <Route path='/signup' component={SignUpScreen} />
-          <Route path='/dashboard' component={Dashboard} />
           <Route path='/sell' component={SellVehicle} />
+          <Route
+            path='/dashboard'
+            component={() => <Dashboard auth={userStorageExists} />}
+          />
         </Container>
       </main>
       <Footer />

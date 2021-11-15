@@ -26,7 +26,7 @@ const profileSchema = mongoose.Schema(
       ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
     },
 
-    phone: { type: Number, required: true },
+    phone: { type: String, required: true },
 
     address: { type: String, required: true },
   },

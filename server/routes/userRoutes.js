@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 const router = express.Router();
 import { Vehicle } from '../models/vehicleModel.js';
 import User from '../models/userModel.js';
+import Profile from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
 // @desc    Fetch all users
@@ -87,45 +88,28 @@ router.post(
 router.post(
   '/dashboard',
   asyncHandler(async (req, res) => {
-    const name = req.body.name;
-    const email = req.body.email;
+    //const name = req.body.name;
+    //const email = req.body.email;
+    const userID = req.body.user;
     const phone = req.body.phone;
     const address = req.body.address;
 
-    const newUser = new User({
-      name: name,
-      email: email,
-      //password: bcrypt.hashSync(confirmPassword, 10),
+    const newProfile = new Profile({
+      user: userID,
       phone: phone,
       address: address,
     });
 
-    newUser.save(function (err) {
+    newProfile.save(function (err) {
       if (err) {
         console.log(err);
+        res.send( err);
       } else {
         res.send({ successMessage: 'Successfully updated profile' });
       }
     });
 
-    if (password === confirmPassword) {
-      const newUser = new User({
-        name: name,
-        email: email,
-        password: bcrypt.hashSync(confirmPassword, 10),
-        isAdmin: false,
-      });
 
-      newUser.save(function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send({ successMessage: 'Successfully registered user' });
-        }
-      });
-    } else {
-      res.send({ errMessage: 'The passwords do not match. Try again.' });
-    }
   })
 );
 
