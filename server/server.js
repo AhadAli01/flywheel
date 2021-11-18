@@ -4,6 +4,7 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import vehicleRoutes from './routes/vehicleRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import auctionRoutes from './routes/auctionRoutes.js';
 
 // !MAKE SURE YOU GUYS GIT PULL BEFORE AND AFTER EVERYTIME YOU MAKE A CHANGE
 
@@ -22,6 +23,7 @@ app.use(express.json());
 // Vehicle Routes
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auctions', auctionRoutes);
 
 // Middleware - check for errors
 app.use(notFound);

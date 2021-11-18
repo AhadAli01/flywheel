@@ -11,6 +11,34 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
+export const auctionSchema = mongoose.Schema(
+  {
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Vehicle', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
+    },
+    bidPrice: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    isSold: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 export const vehicleSchema = mongoose.Schema(
   {
     //   Seller ID
@@ -148,10 +176,11 @@ const sedanSchema = mongoose.Schema(
 );
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+const Auction = mongoose.model('Auction', auctionSchema);
 
 const Sedan = mongoose.model('Sedan', sedanSchema);
 const Suv = mongoose.model('Suv', suvSchema);
 const Van = mongoose.model('Van', vanSchema);
 const Truck = mongoose.model('Truck', truckSchema);
 
-export { Vehicle, Sedan, Suv, Van, Truck };
+export { Auction, Vehicle, Sedan, Suv, Van, Truck };
