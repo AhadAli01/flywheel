@@ -28,6 +28,14 @@ export const auctionSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    postedDate: {
+      type: String,
+      required: true,
+    },
+    expiryDate: {
+      type: String,
+      required: true,
+    },
     isSold: {
       type: Boolean,
       required: true,

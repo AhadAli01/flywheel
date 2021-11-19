@@ -67,34 +67,27 @@ const SellVehicle = ({ match, history }) => {
       const { data } = await axios.post(`/api/vehicles`, vehicle, config);
       console.log(data);
       await addTypeOfVehicle(e, data._id);
-      await addAuction(e, user, data._id, data.price);
-      alert('Vehicle added successfully!');
+
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + 5);
+
+      const start = startDate.toString();
+      const end = endDate.toString();
+
+      await addAuction(e, user, data._id, data.price, start, end);
+      alert('Auction added successfully!');
       history.push('/');
     } catch (err) {
       alert(err.response.data.message);
     }
   };
 
-  const addAuction = async (e, seller, vehicle, bidPrice) => {
-    const auction = {
-      seller,
-      vehicle,
-      bidPrice,
-    };
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
+  const addAuction = async (e, seller, vehicle, bidPrice, postedDate, expiryDate) => {
     try {
-      const { auctionData } = await axios.post(
-        `/api/auctions`,
-        auction,
-        config
-      );
-      console.log(auctionData);
+      await axios.post(`/api/auctions`, {seller: seller, vehicle: vehicle, bidPrice: bidPrice, postedDate: postedDate, expiryDate: expiryDate}).then((response) => {
+        console.log(response.data.successMessage);
+      });
     } catch (error) {
       alert(error.response.data.message);
     }

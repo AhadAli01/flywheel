@@ -27,15 +27,28 @@ router.get(
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    const auction = req.body;
+    const seller = req.body.seller;
+    const vehicle = req.body.vehicle;
+    const bidPrice = req.body.bidPrice;
+    const postedDate = req.body.postedDate;
+    const expiryDate = req.body.expiryDate;
 
-    if (auction) {
-      const a = await Auction.create(auction);
-      res.json(a);
-    } else {
-      res.status(404);
-      throw new error('Invalid auction data');
-    }
+    const newAuction = new Auction({
+      seller: seller,
+      vehicle: vehicle,
+      bidPrice: bidPrice,
+      postedDate: postedDate,
+      expiryDate: expiryDate,
+      isSold: false,
+    });
+
+    newAuction.save(function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({ successMessage: 'Auction created successfully' });
+      }
+    });
   })
 );
 
