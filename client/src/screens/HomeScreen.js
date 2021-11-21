@@ -17,8 +17,12 @@ const HomeScreen = () => {
     const fetchWatchlist = async () => {
       const userInfo = JSON.parse(localStorage.getItem('userData'));
 
-      const { data } = await axios.get(`/api/users/${userInfo._id}/watchlist`);
-      setWatchlistV(data);
+      if (userInfo) {
+        const { data } = await axios.get(
+          `/api/users/${userInfo._id}/watchlist`
+        );
+        setWatchlistV(data);
+      }
     };
 
     fetchVehicles();
