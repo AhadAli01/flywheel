@@ -94,6 +94,10 @@ router.post(
     const phone = req.body.phone;
     const address = req.body.address;
 
+    console.log(phone);
+    console.log(userID);
+    console.log(address);
+
     const newProfile = new Profile({
       user: userID,
       phone: phone,
@@ -103,7 +107,7 @@ router.post(
     newProfile.save(function (err) {
       if (err) {
         console.log(err);
-        res.send( err);
+        res.send(err);
       } else {
         res.send({ successMessage: 'Successfully updated profile' });
       }
@@ -113,13 +117,7 @@ router.post(
   })
 );
 
-// const user = req.body;
-// const newUser = new User(user);
-// await newUser.save();
 
-// res.json(user);
-//   })
-// );
 
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist

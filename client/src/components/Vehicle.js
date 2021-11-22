@@ -25,7 +25,8 @@ const Vehicle = ({ vehicle }) => {
 
         {/* For below have to get rating from  Review (stars) and num reviews (the 4.5 and 15)*/}
         <Card.Text as='div'>
-          <Rating value={4.5} text={`${15} reviews`} />
+          {/* value in line below not used */}
+          <Rating value={4.5} text={`${vehicle.numComments} comments`} />
         </Card.Text>
 
         <Card.Text as='div'>

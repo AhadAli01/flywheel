@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 const Rating = ({ value, text, color }) => {
   return (
+    //don't need the stars therefore commented out
     <div className='rating'>
-      <span>
+      {/* <span>
         <i
           style={{ color }}
           className={
@@ -63,7 +64,7 @@ const Rating = ({ value, text, color }) => {
               : 'far fa-star'
           }
         ></i>
-      </span>
+      </span> */}
       <span>{text && text}</span>
     </div>
   );

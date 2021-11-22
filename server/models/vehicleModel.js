@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = mongoose.Schema(
+const commentSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     rating: { type: Number, required: true },
-    description: { type: String, required: true },
+    comment: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
@@ -98,14 +103,14 @@ export const vehicleSchema = mongoose.Schema(
     },
     // Add description attribute??
     // Foreign key
-    reviews: [reviewSchema],
+    comments: [commentSchema],
     // Average rating
     rating: {
       type: Number,
       required: true,
       default: 0,
     },
-    numReviews: {
+    numComments: {
       type: Number,
       required: true,
       default: 0,

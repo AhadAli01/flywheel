@@ -64,6 +64,7 @@ const Dashboard = ({auth}) => {
           <input
             className='parbirInputs'
             type='email'
+            name='email'
             onChange={(event) => {
               setNewEmail(event.target.value);
             }}
@@ -72,6 +73,7 @@ const Dashboard = ({auth}) => {
           <input
             className='parbirInputs'
             type='phone'
+            name='phone'
             onChange={(event) => {
               setNewPhone(event.target.value);
             }}

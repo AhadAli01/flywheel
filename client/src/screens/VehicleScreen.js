@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import Message from '../components/Message';
 import axios from 'axios';
 
 const VehicleScreen = ({ match }) => {
   const [vehicle, setVehicle] = useState({});
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -59,7 +61,8 @@ const VehicleScreen = ({ match }) => {
               <h2>{`${vehicle.year} ${vehicle.make} ${vehicle.model}`}</h2>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating value={4.5} text={`${15} reviews`} />
+            {/* value in line below not used */}
+              <Rating value={4.5} text={`${vehicle.numComments} comments`} />  
             </ListGroup.Item>
             <ListGroup.Item>Price: ${10000}</ListGroup.Item>
             <ListGroup.Item>
@@ -108,6 +111,23 @@ const VehicleScreen = ({ match }) => {
           </Card>
         </Col>
       </Row>
+      <Row>
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
+              <ListGroup variant='flush'></ListGroup>
+              {vehicle.comments.map((comment) => (
+                <ListGroup.Item key={comment._id}>
+                <strong>{comment.name}</strong>
+                <p>{comment.createdAt.substring(0, 10)}</p>
+                <p>{comment.comment}</p>
+                </ListGroup.Item>
+              ))}
+              <ListGroup.Item>
+                <h2>Write a Vehicle Review</h2>
+              </ListGroup.Item>
+            </Col>
+          </Row>
     </>
   );
 };
