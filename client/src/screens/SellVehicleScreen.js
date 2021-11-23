@@ -52,9 +52,9 @@ const SellVehicle = ({ match, history }) => {
       image,
       isSold: false,
       rating: 0,
-      numReviews: 0,
+      numComments: 0,
       price,
-      reviews: [],
+      comments: [],
     };
     console.log(vehicle);
 
@@ -83,11 +83,26 @@ const SellVehicle = ({ match, history }) => {
     }
   };
 
-  const addAuction = async (e, seller, vehicle, bidPrice, postedDate, expiryDate) => {
+  const addAuction = async (
+    e,
+    seller,
+    vehicle,
+    bidPrice,
+    postedDate,
+    expiryDate
+  ) => {
     try {
-      await axios.post(`/api/auctions`, {seller: seller, vehicle: vehicle, bidPrice: bidPrice, postedDate: postedDate, expiryDate: expiryDate}).then((response) => {
-        console.log(response.data.successMessage);
-      });
+      await axios
+        .post(`/api/auctions`, {
+          seller: seller,
+          vehicle: vehicle,
+          bidPrice: bidPrice,
+          postedDate: postedDate,
+          expiryDate: expiryDate,
+        })
+        .then((response) => {
+          console.log(response.data.successMessage);
+        });
     } catch (error) {
       alert(error.response.data.message);
     }
