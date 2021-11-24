@@ -114,7 +114,7 @@ const VehicleScreen = ({ match }) => {
       <Row>
             <Col md={6}>
               <h2>Reviews</h2>
-              {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
+              {/* {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'></ListGroup>
               {vehicle.comments.map((comment) => (
                 <ListGroup.Item key={comment._id}>
@@ -122,7 +122,7 @@ const VehicleScreen = ({ match }) => {
                 <p>{comment.createdAt.substring(0, 10)}</p>
                 <p>{comment.comment}</p>
                 </ListGroup.Item>
-              ))}
+              ))} */}
               <ListGroup.Item>
                 <h2>Write a Vehicle Review</h2>
               </ListGroup.Item>
