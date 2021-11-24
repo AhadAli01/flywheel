@@ -34,7 +34,9 @@ router.get(
   })
 );
 
-// TODO: Mush pls add the documentation
+// @desc    Authenticating user inputted information
+// @route   GET /api/users/login
+// @access  Public
 router.post(
   '/login',
   asyncHandler(async (req, res) => {
@@ -55,6 +57,9 @@ router.post(
   })
 );
 
+// @desc    Adding a user
+// @route   GET /api/users/signup
+// @access  Public
 router.post(
   '/signup',
   asyncHandler(async (req, res) => {

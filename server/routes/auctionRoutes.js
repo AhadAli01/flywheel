@@ -21,7 +21,7 @@ router.get(
   })
 );
 
-// @desc    Fetch auctions joined with User
+// @desc    Fetch auctions joined with user
 // @route   GET /api/auctions/joinuser
 // @access  Public
 router.get(
@@ -35,7 +35,7 @@ router.get(
   })
 );
 
-// @desc    Fetch auctions joined with Vehicle
+// @desc    Fetch auctions joined with vehicle
 // @route   GET /api/auctions/joinvehicle
 // @access  Public
 router.get(
@@ -49,7 +49,7 @@ router.get(
   })
 );
 
-// @desc    Fetch auctions joined with User and Vehicle
+// @desc    Fetch auctions joined with user and vehicle
 // @route   GET /api/auctions/joinboth
 // @access  Public
 router.get(
