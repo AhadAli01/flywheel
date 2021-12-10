@@ -6,7 +6,7 @@ const data = localStorage.getItem("userData");
 const user = JSON.parse(data);
 
 function Comments(props){
-
+    const [allComments, setallComments] = useState({});
     const [Comment, setComment] = useState("");
     const handleChange = (e) => {
         setComment(e.currentTarget.value)
@@ -20,12 +20,16 @@ function Comments(props){
         e.preventDefault();
         axios.post('/api/vehicles/saveComment', variable)
         .then(response=> {
-            if(response.data.success){
+            if (response.data.errMessage) {
+                alert(response.data.errMessage);
+              } else {
+                if (response.data.successMessage) {
+                alert("commented!")
                 setComment("")
                 props.refreshFunction(response.data.result)
-            } else{
-            alert('failed to save comment')
-            }
+                setallComments(allComments.concat(response.data.result))
+                }
+              }
         })
     }
     return (
@@ -34,7 +38,7 @@ function Comments(props){
             <p> Comments</p>
             <hr />
             {/* Comment Lists*/}
-            {console.log(props.CommentLists)}
+            {console.log(allComments)}
 
             {/* Root Comment Form*/}
             <form style={{display:'flex'}} onSubmit={onSubmit}>

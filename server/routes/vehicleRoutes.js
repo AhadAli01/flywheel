@@ -142,16 +142,30 @@ router.post("/saveComment", (req, res) => {
   // }
 
 
-  comment.save((err, comment) => {
-      if(err) return res.json({success:false, err})
+  //comment.save((err, comment) => {
+      // if(err) return res.json({success:false, err})
       
-      Comment.find({'_id': comment._id})
-      .populate('user')
-      .exec((err, result) => {
-          if(err) return res.json({ success:false, err })
-          return res.status(200).json({sucess: true, result})
-      })
-  })
+      // Comment.find({'_id': comment._id})
+      // .populate('user')
+      // .exec((err, result) => {
+      //     if(err) return res.json({ success:false, err })
+      //     return res.status(200).json({sucess: true, result})
+      // })
+
+      comment.save(function (err, comment) {
+        if (err) {
+          console.log(err);
+        } else {
+          Comment.find({'_id': comment._id})
+          .populate('user')
+          .exec((err, result) => {
+              if(err) return res.json({ success:false, err })
+              return res.status(200).json({sucess: true, result})
+          })
+        }
+      });
+  //})
 });
+
 
 export default router;
