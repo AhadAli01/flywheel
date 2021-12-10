@@ -35,6 +35,7 @@ const profileSchema = mongoose.Schema(
   }
 );
 
+
 const Profile = mongoose.model('Profile', profileSchema);
 
 const userSchema = mongoose.Schema(

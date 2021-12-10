@@ -1,7 +1,11 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
-import { Vehicle, Sedan, Suv, Van, Truck } from '../models/vehicleModel.js';
+import { Vehicle, Sedan, Suv, Van, Truck, Comment } from '../models/vehicleModel.js';
+
+
+
+
 
 // @desc    Fetch all vehicles
 // @route   GET /api/vehicles
@@ -122,5 +126,32 @@ router.post(
     }
   })
 );
+
+//const { Comment } = require("../models/vehicleModel");
+
+router.post("/saveComment", (req, res) => {
+
+  const comment = new Comment (req.body);
+
+  // if (comment) {
+  //   await Comment.create(comment);
+  //   res.json(comment);
+  // } else {
+  //   res.status(404);
+  //   throw new Error('Invalid user data');
+  // }
+
+
+  comment.save((err, comment) => {
+      if(err) return res.json({success:false, err})
+      
+      Comment.find({'_id': comment._id})
+      .populate('user')
+      .exec((err, result) => {
+          if(err) return res.json({ success:false, err })
+          return res.status(200).json({sucess: true, result})
+      })
+  })
+});
 
 export default router;

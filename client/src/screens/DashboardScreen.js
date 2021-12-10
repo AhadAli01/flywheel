@@ -33,7 +33,7 @@ const Dashboard = ({auth}) => {
     event.preventDefault();
     axios
       .post('/api/users/dashboard', {
-        //user: object._id,
+        user: object._id,
         address: newAddress,
         phone: newPhone,
       })
@@ -87,7 +87,7 @@ const Dashboard = ({auth}) => {
             }}
             placeholder='Enter Address'
           />
-          <button className='parbirButton' type='submit'>
+          <button className='parbirButton' type='submit' onClick={update}>
             Update
           </button>
         </Form>

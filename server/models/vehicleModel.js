@@ -2,13 +2,17 @@ import mongoose from 'mongoose';
 
 const commentSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
+    //writer: { type: String, required: true },
+    //rating: { type: Number, required: false },
+    content: { type: String },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      //required: true,
       ref: 'User',
+    },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Vehicle',
     },
   },
   {
@@ -190,10 +194,10 @@ const sedanSchema = mongoose.Schema(
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 const Auction = mongoose.model('Auction', auctionSchema);
-
+const Comment = mongoose.model('Comment',commentSchema);
 const Sedan = mongoose.model('Sedan', sedanSchema);
 const Suv = mongoose.model('Suv', suvSchema);
 const Van = mongoose.model('Van', vanSchema);
 const Truck = mongoose.model('Truck', truckSchema);
 
-export { Auction, Vehicle, Sedan, Suv, Van, Truck };
+export { Auction, Vehicle, Sedan, Suv, Van, Truck, Comment };

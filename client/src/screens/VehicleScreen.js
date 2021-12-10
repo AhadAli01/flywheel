@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import Comments from "../components/Comments";
 import Message from '../components/Message';
 import axios from 'axios';
 
 const VehicleScreen = ({ match }) => {
   const [vehicle, setVehicle] = useState({});
-  const [comment, setComment] = useState('');
+  const [CommentLists, setCommentLists] = useState([]);
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -40,6 +41,10 @@ const VehicleScreen = ({ match }) => {
       alert(err.response.data.message);
     }
   };
+
+  const updateComment = (newComment) => {
+    setCommentLists(CommentLists.concat(newComment))
+  }
 
   return (
     <>
@@ -113,8 +118,8 @@ const VehicleScreen = ({ match }) => {
       </Row>
       <Row>
             <Col md={6}>
-              <h2>Reviews</h2>
-              {/* {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
+              {/* <h2>Comments</h2>
+               {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'></ListGroup>
               {vehicle.comments.map((comment) => (
                 <ListGroup.Item key={comment._id}>
@@ -122,10 +127,11 @@ const VehicleScreen = ({ match }) => {
                 <p>{comment.createdAt.substring(0, 10)}</p>
                 <p>{comment.comment}</p>
                 </ListGroup.Item>
-              ))} */}
+              ))} 
               <ListGroup.Item>
-                <h2>Write a Vehicle Review</h2>
-              </ListGroup.Item>
+                <h2>Write a Comment</h2>
+              </ListGroup.Item> */}
+              <Comments CommentLists={CommentLists} vehicle={vehicle._id} refreshFunction={updateComment} />
             </Col>
           </Row>
     </>
