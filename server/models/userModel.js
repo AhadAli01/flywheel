@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { vehicleSchema } from './vehicleModel.js';
+import { vehicleSchema, auctionSchema } from './vehicleModel.js';
 import bcrypt from 'bcryptjs';
 
 // const watchlistSchema = mongoose.Schema(
@@ -58,7 +58,7 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    watchlist: [vehicleSchema],
+    watchlist: [auctionSchema],
   },
   {
     timestamps: true,
