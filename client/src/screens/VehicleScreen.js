@@ -44,7 +44,7 @@ const VehicleScreen = ({ match }) => {
     try {
       const { data } = await axios.post(
         `/api/users/${userInfo._id}/watchlist`,
-        auction.vehicle,
+        vehicle,
         config
       );
       console.log(data);
