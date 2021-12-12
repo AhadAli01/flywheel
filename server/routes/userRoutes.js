@@ -123,54 +123,10 @@ router.post(
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist
 
+
 // @desc    Get user's watchlist
 // @route   GET /api/users/:id/watchlist
 // @access  Public
-// router.get(
-//   '/:id/watchlist',
-//   asyncHandler(async (req, res) => {
-//     const user = await User.findById(req.params.id);
-
-//     if (user) {
-//       res.json(user.watchlist);
-//     } else {
-//       res.status(404);
-//       throw new Error('user not found');
-//     }
-//   })
-// );
-
-// @desc    Add vehicle to user's watchlist
-// @route   POST /api/users/:id/watchlist
-// @access  Public
-// router.post(
-//   '/:id/watchlist',
-//   asyncHandler(async (req, res) => {
-//     const user = await User.findById(req.params.id);
-
-//     const vehicle = req.body;
-
-//     if (vehicle) {
-//       const alreadyAdded = user.watchlist.find(
-//         (w) => w._id.toString() === vehicle._id.toString()
-//       );
-
-//       if (alreadyAdded) {
-//         res.status(400);
-//         throw new Error('Vehicle already added');
-//       }
-
-//       // res.json(vehicle);
-//       user.watchlist.push(vehicle);
-//       await user.save();
-//       res.json(user.watchlist);
-//     } else {
-//       res.status(404);
-//       throw new Error('vehicle not found');
-//     }
-//   })
-// );
-
 router.get(
   '/:id/watchlist',
   asyncHandler(async (req, res) => {
@@ -185,6 +141,9 @@ router.get(
   })
 );
 
+// @desc    Add vehicle to user's watchlist
+// @route   POST /api/users/:id/watchlist
+// @access  Public
 router.post(
   '/:id/watchlist',
   asyncHandler(async (req, res) => {

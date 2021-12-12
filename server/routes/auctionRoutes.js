@@ -24,22 +24,6 @@ router.get(
   })
 );
 
-// @desc    Fetch auctions by id without join
-// @route   GET /api/auctions/:id/nojoin
-// @access  Public
-router.get(
-  '/:id/nojoin',
-  asyncHandler(async (req, res) => {
-    const auctions = await Auction.findById(req.params.id);
-
-    if (auctions) {
-      res.send(auctions);
-    } else {
-      res.send({ errMessage: 'Auction not found' });
-    }
-  })
-);
-
 // @desc    Fetch auctions by id
 // @route   GET /api/auctions/:id
 // @access  Public

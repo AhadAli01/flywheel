@@ -56,9 +56,9 @@ const HomeScreen = () => {
         <Col xl={3} style={{ border: '2px solid black' }}>
           <h3 className='d-flex justify-content-center pt-3'>Watchlist</h3>
           <Row>
-            {watchlistV.map((wV) => (
-              <Col key={wV._id} xl={12}>
-                <Vehicle vehicle={wV} />
+            {watchlistV.map((watchlist) => (
+              <Col key={watchlist._id} xl={12}>
+                <Vehicle auctionId={watchlist._id} vehicle={watchlist.vehicle} />
               </Col>
             ))}
           </Row>
