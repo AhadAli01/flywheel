@@ -58,7 +58,7 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    watchlist: [auctionSchema],
+    watchlist: [],
   },
   {
     timestamps: true,

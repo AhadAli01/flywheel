@@ -8,7 +8,6 @@ import axios from 'axios';
 
 const VehicleScreen = ({ match }) => {
   //const [vehicle, setVehicle] = useState({});
-  const [auctionWatchlist, setAuctionWatchlist] = useState({});
   const [auction, setAuction] = useState({});
   const [vehicle, setVehicle] = useState({});
 
@@ -29,13 +28,6 @@ const VehicleScreen = ({ match }) => {
       setVehicle(data.vehicle);
     };
 
-    const fetchAuctionWatchlist = async () => {
-      const { data } = await axios.get(`/api/auctions/${match.params.id}/nojoin`);
-
-      setAuctionWatchlist(data);
-    };
-
-    fetchAuctionWatchlist();
     fetchAuction();
   }, [match]);
 
@@ -52,7 +44,7 @@ const VehicleScreen = ({ match }) => {
     try {
       const { data } = await axios.post(
         `/api/users/${userInfo._id}/watchlist`,
-        auctionWatchlist,
+        auction,
         config
       );
       console.log(data);
