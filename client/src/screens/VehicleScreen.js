@@ -9,6 +9,8 @@ import axios from 'axios';
 const VehicleScreen = ({ match }) => {
   //const [vehicle, setVehicle] = useState({});
   const [auction, setAuction] = useState({});
+  const [vehicle, setVehicle] = useState({});
+
 
   const [CommentLists, setCommentLists] = useState([]);
 
@@ -23,6 +25,7 @@ const VehicleScreen = ({ match }) => {
       const { data } = await axios.get(`/api/auctions/${match.params.id}`);
 
       setAuction(data);
+      setVehicle(data.vehicle);
     };
 
     fetchAuction();
@@ -62,8 +65,8 @@ const VehicleScreen = ({ match }) => {
       <Row>
         <Col md={6}>
           <Image
-            src={auction.vehicle.image}
-            alt={auction.vehicle.make}
+            src={vehicle.image}
+            alt={vehicle.make}
             className='equalImgVehicle'
             fluid
           />
@@ -71,13 +74,13 @@ const VehicleScreen = ({ match }) => {
         <Col md={3}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>{`${auction.vehicle.year} ${auction.vehicle.make} ${auction.vehicle.model}`}</h2>
+              <h2>{`${vehicle.year} ${vehicle.make} ${vehicle.model}`}</h2>
             </ListGroup.Item>
             <ListGroup.Item>
             {/* value in line below not used */}
-              <Rating value={4.5} text={`${auction.vehicle.numComments} comments`} />  
+              <Rating value={4.5} text={`${vehicle.numComments} comments`} />  
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${auction.vehicle.price}</ListGroup.Item>
+            <ListGroup.Item>Price: ${vehicle.price}</ListGroup.Item>
             <ListGroup.Item>
               Description:{' '}
               {`TBD: Can add a description attribute or just list all remaining attributes`}
@@ -91,7 +94,7 @@ const VehicleScreen = ({ match }) => {
                 <Row>
                   <Col>Auction Price:</Col>
                   <Col>
-                    <strong>${auction.vehicle.price}</strong>
+                    <strong>${vehicle.price}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -139,7 +142,7 @@ const VehicleScreen = ({ match }) => {
               <ListGroup.Item>
                 <h2>Write a Comment</h2>
               </ListGroup.Item> */}
-              <Comments CommentLists={CommentLists} vehicle={auction.vehicle._id} refreshFunction={updateComment} />
+              <Comments CommentLists={CommentLists} vehicle={vehicle._id} refreshFunction={updateComment} />
             </Col>
           </Row>
     </>
