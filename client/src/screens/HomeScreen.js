@@ -4,14 +4,21 @@ import axios from 'axios';
 import Vehicle from '../components/Vehicle';
 
 const HomeScreen = () => {
-  const [vehicles, setVehicles] = useState([]);
+  //const [vehicles, setVehicles] = useState([]);
+  const [auctions, setAuctions] = useState([]);
   const [watchlistV, setWatchlistV] = useState([]);
 
   useEffect(() => {
-    const fetchVehicles = async () => {
-      const { data } = await axios.get('/api/vehicles');
+    // const fetchVehicles = async () => {
+    //   const { data } = await axios.get('/api/vehicles');
 
-      setVehicles(data);
+    //   setVehicles(data);
+    // };
+
+    const fetchAuctions = async () => {
+      const { data } = await axios.get('/api/auctions');
+
+      setAuctions(data);
     };
 
     const fetchWatchlist = async () => {
@@ -25,7 +32,7 @@ const HomeScreen = () => {
       }
     };
 
-    fetchVehicles();
+    fetchAuctions();
     fetchWatchlist();
     // const data = JSON.parse(localStorage.getItem('userData'));
     // console.log(data);
@@ -39,9 +46,9 @@ const HomeScreen = () => {
       <Row>
         <Col xl={9} className='pr-5'>
           <Row>
-            {vehicles.map((vehicle) => (
-              <Col key={vehicle._id} sm={12} lg={6} xl={4}>
-                <Vehicle vehicle={vehicle} />
+            {auctions.map((auction) => (
+              <Col key={auction._id} sm={12} lg={6} xl={4}>
+                <Vehicle auctionId={auction._id} vehicle={auction.vehicle}/>
               </Col>
             ))}
           </Row>

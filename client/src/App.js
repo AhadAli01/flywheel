@@ -21,7 +21,7 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Route path='/' component={HomeScreen} exact />
-          <Route path='/vehicle/:id' component={VehicleScreen} />
+          <Route path='/auction/:id' component={VehicleScreen} />
           <Route path='/login' component={LoginScreen} />
           <Route path='/signup' component={SignUpScreen} />
           <Route path='/sell' component={SellVehicle} />

@@ -7,17 +7,25 @@ import Message from '../components/Message';
 import axios from 'axios';
 
 const VehicleScreen = ({ match }) => {
-  const [vehicle, setVehicle] = useState({});
+  //const [vehicle, setVehicle] = useState({});
+  const [auction, setAuction] = useState({});
+
   const [CommentLists, setCommentLists] = useState([]);
 
   useEffect(() => {
-    const fetchVehicle = async () => {
-      const { data } = await axios.get(`/api/vehicles/${match.params.id}`);
+    // const fetchVehicle = async () => {
+    //   const { data } = await axios.get(`/api/vehicles/${match.params.id}`);
 
-      setVehicle(data);
+    //   setVehicle(data);
+    // };
+
+    const fetchAuction = async () => {
+      const { data } = await axios.get(`/api/auctions/${match.params.id}`);
+
+      setAuction(data);
     };
 
-    fetchVehicle();
+    fetchAuction();
   }, [match]);
 
   const addWatchlistHandler = async () => {
@@ -26,14 +34,14 @@ const VehicleScreen = ({ match }) => {
         'Content-Type': 'application/json',
       },
     };
-    console.log(vehicle);
+    console.log(auction);
     const userInfo = JSON.parse(localStorage.getItem('userData'));
     console.log(userInfo);
     console.log(userInfo._id);
     try {
       const { data } = await axios.post(
         `/api/users/${userInfo._id}/watchlist`,
-        vehicle,
+        auction.vehicle,
         config
       );
       console.log(data);
@@ -54,8 +62,8 @@ const VehicleScreen = ({ match }) => {
       <Row>
         <Col md={6}>
           <Image
-            src={vehicle.image}
-            alt={vehicle.make}
+            src={auction.vehicle.image}
+            alt={auction.vehicle.make}
             className='equalImgVehicle'
             fluid
           />
@@ -63,13 +71,13 @@ const VehicleScreen = ({ match }) => {
         <Col md={3}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>{`${vehicle.year} ${vehicle.make} ${vehicle.model}`}</h2>
+              <h2>{`${auction.vehicle.year} ${auction.vehicle.make} ${auction.vehicle.model}`}</h2>
             </ListGroup.Item>
             <ListGroup.Item>
             {/* value in line below not used */}
-              <Rating value={4.5} text={`${vehicle.numComments} comments`} />  
+              <Rating value={4.5} text={`${auction.vehicle.numComments} comments`} />  
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${10000}</ListGroup.Item>
+            <ListGroup.Item>Price: ${auction.vehicle.price}</ListGroup.Item>
             <ListGroup.Item>
               Description:{' '}
               {`TBD: Can add a description attribute or just list all remaining attributes`}
@@ -83,7 +91,7 @@ const VehicleScreen = ({ match }) => {
                 <Row>
                   <Col>Auction Price:</Col>
                   <Col>
-                    <strong>${10000}</strong>
+                    <strong>${auction.vehicle.price}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -131,7 +139,7 @@ const VehicleScreen = ({ match }) => {
               <ListGroup.Item>
                 <h2>Write a Comment</h2>
               </ListGroup.Item> */}
-              <Comments CommentLists={CommentLists} vehicle={vehicle._id} refreshFunction={updateComment} />
+              <Comments CommentLists={CommentLists} vehicle={auction.vehicle._id} refreshFunction={updateComment} />
             </Col>
           </Row>
     </>
