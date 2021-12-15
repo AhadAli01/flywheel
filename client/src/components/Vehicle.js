@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
-const Vehicle = ({ auctionId, vehicle }) => {
+const Vehicle = ({ auctionId, vehicle, auctionPrice}) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/auction/${auctionId}`}>
@@ -35,7 +35,7 @@ const Vehicle = ({ auctionId, vehicle }) => {
 
         {/* For below have to get price from Auction (bid amount)*/}
         <Card.Text as='h3' className='price'>
-          ${vehicle.price}
+          ${auctionPrice}
         </Card.Text>
       </Card.Body>
     </Card>
