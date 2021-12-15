@@ -11,12 +11,20 @@ function Comments(props) {
   const handleChange = (e) => {
     setComment(e.currentTarget.value);
   };
-  const variable = {
-    content: Comment,
-    user: user._id,
-    vehicle: props.vehicle,
-  };
+
   const onSubmit = async (e) => {
+    let variable = {};
+    if (user) {
+      variable = {
+        content: Comment,
+        user: user._id,
+        vehicle: props.vehicle,
+      };
+    } else {
+      alert('Please login');
+      // history.push('/login')
+      // return;
+    }
     e.preventDefault();
     // axios.post('/api/vehicles/saveComment', variable)
     // .then(response=> {
@@ -42,8 +50,8 @@ function Comments(props) {
         variable,
         config
       );
-    //   console.log(data);
-    alert("Comment successfully added!");
+      //   console.log(data);
+      alert('Comment successfully added!');
     } catch (err) {
       alert(err.response.data.message);
     }
