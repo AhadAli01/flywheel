@@ -68,6 +68,27 @@ router.post(
   })
 );
 
+router.post(
+  '/expired',
+  asyncHandler(async (req, res) => {
+    const auctions = await Auction.find();
+
+    for (const auction of auctions) {
+      await Auction.updateOne({_id: auction._id}, { $set: {isSold: false} });
+      console.log("hello this ran");
+    }
+    // await Auction.find().forEach(function(a) {
+    //   //const b = Date.parse(a.expiryDate);
+    //   //const c = new Date(b);
+    //   //const d = new Date();
+    //   //if (d >= c) {
+    //   await Auction.updateOne({_id: a._id}, { $set: {isSold: true} });
+    //    console.log("hello this ran"); 
+    //   //}
+    // });
+  })
+);
+
 // @desc    Posting an auction
 // @route   POST /api/auctions
 // @access  Public
