@@ -74,8 +74,8 @@ router.post(
     const auctions = await Auction.find();
 
     for (const auction of auctions) {
-      await Auction.updateOne({_id: auction._id}, { $set: {isSold: false} });
-      console.log("hello this ran");
+      await Auction.updateOne({_id: auction._id}, { $set: {isSold: true} });
+      //console.log("hello this ran");
     }
     // await Auction.find().forEach(function(a) {
     //   //const b = Date.parse(a.expiryDate);
