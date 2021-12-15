@@ -40,6 +40,26 @@ router.get(
   })
 );
 
+// @desc    Update auction price
+// @route   POST /api/auctions/updateprice
+// @access  Public
+router.post(
+  '/updateprice',
+  asyncHandler(async (req, res) => {
+    const auctionID = req.body.auctionID;
+    const user = req.body.user;
+    const bidAmount = req.body.bidAmount;
+
+    const auction = await Auction.findById(auctionID);
+    if((bidAmount-auction.bidPrice) == 100) {
+      await Auction.updateOne({seller: user}, { $set: {winningbidder: user, bidPrice: bidAmount} });
+      res.send({ successMessage: 'Successfully updated price'});
+    } else {
+      res.send({errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
+    }
+  })
+);
+
 // @desc    Posting an auction
 // @route   POST /api/auctions
 // @access  Public
