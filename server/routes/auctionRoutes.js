@@ -1,5 +1,6 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
+import User from '../models/userModel.js';
 const router = express.Router();
 import {
   Auction,
@@ -51,8 +52,15 @@ router.post(
     const bidAmount = req.body.bidAmount;
 
     const auction = await Auction.findById(auctionID);
-    if((bidAmount-auction.bidPrice) == 100) {
-      await Auction.updateOne({_id: auctionID}, { $set: {winningbidder: "someuserhere", bidPrice: bidAmount} });
+    if ((bidAmount-auction.bidPrice) == 100) {
+      await Auction.updateOne({_id: auctionID}, { $set: {winningbidder: user, bidPrice: bidAmount} });
+      const userFound = await User.findById(user);
+      const auctionAdded = userFound.watchlist.find((w) => w._id.toString() === auction._id.toString());
+      if (auctionAdded) {
+        const query = {_id: user};
+        const update = { $set: {"watchlist.$[].bidPrice": bidAmount} };
+        await User.updateOne(query, update);
+      }
       res.send({ successMessage: 'Successfully updated price'});
     } else {
       res.send({errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
