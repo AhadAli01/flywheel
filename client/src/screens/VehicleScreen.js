@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Comments from "../components/Comments";
@@ -42,8 +42,13 @@ const VehicleScreen = ({ match }) => {
     };
     console.log(auction);
     const userInfo = JSON.parse(localStorage.getItem('userData'));
-    console.log(userInfo);
-    console.log(userInfo._id);
+    if (userInfo) {
+      console.log(userInfo);
+      console.log(userInfo._id);
+    } else {
+      alert('Please login');
+      return(<Redirect to = "/login"/>);
+    }
     try {
       const { data } = await axios.post(
         `/api/users/${userInfo._id}/watchlist`,
