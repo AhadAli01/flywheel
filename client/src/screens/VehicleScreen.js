@@ -101,7 +101,7 @@ const VehicleScreen = ({ match }) => {
             {/* value in line below not used */}
               <Rating value={4.5} text={`${vehicle.numComments} comments`} />  
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${vehicle.price}</ListGroup.Item>
+            <ListGroup.Item>Price: ${auction.bidPrice}</ListGroup.Item>
             <ListGroup.Item>
               Description:{' '}
               {`TBD: Can add a description attribute or just list all remaining attributes`}
@@ -115,7 +115,7 @@ const VehicleScreen = ({ match }) => {
                 <Row>
                   <Col>Auction Price:</Col>
                   <Col>
-                    <strong>${vehicle.price}</strong>
+                    <strong>${auction.bidPrice}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
