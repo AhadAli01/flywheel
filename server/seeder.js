@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import users from './data/users.js';
 import vehicles from './data/vehicles.js';
-import User from './models/userModel.js';
+import { User } from './models/userModel.js';
 import Vehicle from './models/vehicleModel.js';
 import Order from './models/orderModel.js';
 import connectDB from './config/db.js';

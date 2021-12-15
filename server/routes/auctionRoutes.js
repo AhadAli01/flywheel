@@ -1,6 +1,6 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
-import User from '../models/userModel.js';
+import { User } from '../models/userModel.js';
 const router = express.Router();
 import {
   Auction,
@@ -17,7 +17,9 @@ import {
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    Auction.find().populate('seller').populate('vehicle')
+    Auction.find()
+      .populate('seller')
+      .populate('vehicle')
       .exec(function (err, auction) {
         if (err) return handleError(err);
         res.send(auction);
@@ -31,7 +33,9 @@ router.get(
 router.get(
   '/:id',
   asyncHandler(async (req, res) => {
-    const auctions = await Auction.findById(req.params.id).populate('seller').populate('vehicle');
+    const auctions = await Auction.findById(req.params.id)
+      .populate('seller')
+      .populate('vehicle');
 
     if (auctions) {
       res.send(auctions);
@@ -52,14 +56,19 @@ router.post(
     const bidAmount = req.body.bidAmount;
 
     const auction = await Auction.findById(auctionID);
-    if ((bidAmount-auction.bidPrice) == 100) {
-      await Auction.updateOne({_id: auctionID}, { $set: {winningbidder: user, bidPrice: bidAmount} });
+    if (bidAmount - auction.bidPrice == 100) {
+      await Auction.updateOne(
+        { _id: auctionID },
+        { $set: { winningbidder: user, bidPrice: bidAmount } }
+      );
       const userFound = await User.find();
       for (const userF of userFound) {
-        const auctionAdded = userF.watchlist.find((w) => w._id.toString() === auction._id.toString());
+        const auctionAdded = userF.watchlist.find(
+          (w) => w._id.toString() === auction._id.toString()
+        );
         if (auctionAdded) {
-          const query = {_id: userF._id};
-          const update = { $set: {"watchlist.$[].bidPrice": bidAmount} };
+          const query = { _id: userF._id };
+          const update = { $set: { 'watchlist.$[].bidPrice': bidAmount } };
           await User.updateOne(query, update);
         }
       }
@@ -69,9 +78,12 @@ router.post(
       //   const update = { $set: {"watchlist.$[].bidPrice": bidAmount} };
       //   await User.updateOne(query, update);
       // }
-      res.send({ successMessage: 'Successfully updated price'});
+      res.send({ successMessage: 'Successfully updated price' });
     } else {
-      res.send({errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
+      res.send({
+        errMessage:
+          'Invalid bid amount, bids must be integers and increments of 100',
+      });
     }
   })
 );
@@ -83,11 +95,14 @@ router.post(
     const users = await User.find();
 
     for (const auction of auctions) {
-      await Auction.updateOne({_id: auction._id}, { $set: {isSold: true} });
+      await Auction.updateOne({ _id: auction._id }, { $set: { isSold: true } });
       //console.log("hello this ran");
     }
     for (const user of users) {
-      await User.updateOne({_id: user._id}, { $set: {"watchlist.$[].isSold": true} });
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { 'watchlist.$[].isSold': true } }
+      );
     }
     // await Auction.find().forEach(function(a) {
     //   //const b = Date.parse(a.expiryDate);
@@ -95,7 +110,7 @@ router.post(
     //   //const d = new Date();
     //   //if (d >= c) {
     //   await Auction.updateOne({_id: a._id}, { $set: {isSold: true} });
-    //    console.log("hello this ran"); 
+    //    console.log("hello this ran");
     //   //}
     // });
   })

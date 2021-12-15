@@ -35,9 +35,6 @@ const profileSchema = mongoose.Schema(
   }
 );
 
-
-const Profile = mongoose.model('Profile', profileSchema);
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -70,5 +67,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 const User = mongoose.model('User', userSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
-export default User;
+export { User, Profile };

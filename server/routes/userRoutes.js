@@ -2,8 +2,8 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
 import { Vehicle } from '../models/vehicleModel.js';
-import User from '../models/userModel.js';
-import Profile from '../models/userModel.js';
+import { User, Profile } from '../models/userModel.js';
+// import Profile from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
 // @desc    Fetch all users
@@ -122,7 +122,6 @@ router.post(
 
 // TODO for watchlist have to do so when user created they can add vehicles to watchlist. Have to wait for you/Mush to implement register/login for users
 // TODO as watchlist is specific to user/ currently just have all vehicles in watchlist
-
 
 // @desc    Get user's watchlist
 // @route   GET /api/users/:id/watchlist
