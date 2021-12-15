@@ -48,7 +48,7 @@ const HomeScreen = () => {
           <Row>
             {auctions.map((auction) => (
               <Col key={auction._id} sm={12} lg={6} xl={4}>
-                <Vehicle auctionId={auction._id} vehicle={auction.vehicle}/>
+                <Vehicle auctionId={auction._id} vehicle={auction.vehicle} auctionPrice={auction.bidPrice}/>
               </Col>
             ))}
           </Row>
@@ -58,7 +58,7 @@ const HomeScreen = () => {
           <Row>
             {watchlistV.map((watchlist) => (
               <Col key={watchlist._id} xl={12}>
-                <Vehicle auctionId={watchlist._id} vehicle={watchlist.vehicle} />
+                <Vehicle auctionId={watchlist._id} vehicle={watchlist.vehicle} auctionPrice={watchlist.bidPrice}/>
               </Col>
             ))}
           </Row>
