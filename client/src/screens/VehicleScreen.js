@@ -10,6 +10,9 @@ const VehicleScreen = ({ match }) => {
   //const [vehicle, setVehicle] = useState({});
   const [auction, setAuction] = useState({});
   const [vehicle, setVehicle] = useState({});
+  const [bidAmount, setBidAmount] = useState(0);
+
+
 
 
   const [CommentLists, setCommentLists] = useState([]);
@@ -56,6 +59,24 @@ const VehicleScreen = ({ match }) => {
   const updateComment = (newComment) => {
     setCommentLists(CommentLists.concat(newComment))
   }
+
+  const updatePriceHandler = async () => {
+    const user = JSON.parse(localStorage.getItem('userData'));
+    try {
+      await axios.post("/api/auctions/updateprice", {auctionID: auction._id, user: user._id, bidAmount: bidAmount}).then((response) => {
+        if (response.data.successMessage) {
+          alert(response.data.successMessage);
+          window.location.reload();
+        } else {
+          if (response.data.errMessage) {
+            alert(response.data.errMessage);
+          }
+        }
+      });
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  }; 
 
   return (
     <>
@@ -108,8 +129,11 @@ const VehicleScreen = ({ match }) => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
+                <input className="inputs" type="bidAmount" placeholder='Enter Your Bid Here!' onChange={(event) => {
+                setBidAmount(event.target.value);
+                }}/>
                 {/* Check if sold and replace false */}
-                <Button className='w-100' type='button' disabled={false}>
+                <Button className='w-100' type='button' disabled={false} onClick={updatePriceHandler}>
                   Make a Bid
                 </Button>
               </ListGroup.Item>

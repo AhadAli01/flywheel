@@ -52,7 +52,7 @@ router.post(
 
     const auction = await Auction.findById(auctionID);
     if((bidAmount-auction.bidPrice) == 100) {
-      await Auction.updateOne({seller: user}, { $set: {winningbidder: user, bidPrice: bidAmount} });
+      await Auction.updateOne({_id: auctionID}, { $set: {winningbidder: "someuserhere", bidPrice: bidAmount} });
       res.send({ successMessage: 'Successfully updated price'});
     } else {
       res.send({errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
