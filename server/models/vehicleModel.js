@@ -27,6 +27,11 @@ export const auctionSchema = mongoose.Schema(
       required: true,
       ref: 'User', // MongoDB/Mongoose equivalent to instantiating a foreign key in SQL
     },
+    winningbidder: {
+      type: String,
+      required: true,
+      default: 'None'
+    },
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
