@@ -1,11 +1,15 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
-import { Vehicle, Sedan, Suv, Van, Truck, Comment, Auction } from '../models/vehicleModel.js';
-
-
-
-
+import {
+  Vehicle,
+  Sedan,
+  Suv,
+  Van,
+  Truck,
+  Comment,
+  Auction,
+} from '../models/vehicleModel.js';
 
 // @desc    Fetch all vehicles
 // @route   GET /api/vehicles
@@ -18,7 +22,6 @@ router.get(
     res.json(comment);
   })
 );
-
 
 router.get(
   '/',
@@ -139,9 +142,8 @@ router.post(
 
 //const { Comment } = require("../models/vehicleModel");
 
-router.post("/saveComment", (req, res) => {
-
-  const comment = new Comment (req.body);
+router.post('/saveComment', (req, res) => {
+  const comment = new Comment(req.body);
 
   // if (comment) {
   //   await Comment.create(comment);
@@ -151,34 +153,97 @@ router.post("/saveComment", (req, res) => {
   //   throw new Error('Invalid user data');
   // }
 
-
   //comment.save((err, comment) => {
-      // if(err) return res.json({success:false, err})
-      
-      // Comment.find({'_id': comment._id})
-      // .populate('user')
-      // .exec((err, result) => {
-      //     if(err) return res.json({ success:false, err })
-      //     return res.status(200).json({sucess: true, result})
-      // })
+  // if(err) return res.json({success:false, err})
 
-      comment.save(function (err, comment) {
-        if (err) {
-          console.log(err);
-        } else {
-          Comment.find({'_id': comment._id})
-          .populate('user')
-          .exec((err, result) => {
-              if(err) return res.json({ success:false, err })
-              return res.status(200).json({sucess: true, result})
-          })
-        }
-      });
+  // Comment.find({'_id': comment._id})
+  // .populate('user')
+  // .exec((err, result) => {
+  //     if(err) return res.json({ success:false, err })
+  //     return res.status(200).json({sucess: true, result})
+  // })
+
+  comment.save(function (err, comment) {
+    if (err) {
+      console.log(err);
+    } else {
+      Comment.find({ _id: comment._id })
+        .populate('user')
+        .exec((err, result) => {
+          if (err) return res.json({ success: false, err });
+          return res.status(200).json({ sucess: true, result });
+        });
+    }
+  });
   //})
 });
 
+// @desc    Fetch single sedan
+// @route   GET /api/vehicles/sedan/:id
+// @access  Public
+router.get(
+  '/sedan/:id',
+  asyncHandler(async (req, res) => {
+    const sedan = await Sedan.findOne({ user: req.params.id });
 
+    if (sedan) {
+      res.json(sedan);
+    } else {
+      res.status(404);
+      throw new Error('Sedan not found');
+    }
+  })
+);
 
+// @desc    Fetch single SUV
+// @route   GET /api/vehicles/suv/:id
+// @access  Public
+router.get(
+  '/suv/:id',
+  asyncHandler(async (req, res) => {
+    const suv = await Suv.findOne({ user: req.params.id });
 
+    if (suv) {
+      res.json(suv);
+    } else {
+      res.status(404);
+      throw new Error('SUV not found');
+    }
+  })
+);
+
+// @desc    Fetch single truck
+// @route   GET /api/vehicles/truck/:id
+// @access  Public
+router.get(
+  '/truck/:id',
+  asyncHandler(async (req, res) => {
+    const truck = await Truck.findOne({ user: req.params.id });
+
+    if (truck) {
+      res.json(truck);
+    } else {
+      res.status(404);
+      throw new Error('Truck not found');
+    }
+  })
+);
+
+// @desc    Fetch single van
+// @route   GET /api/vehicles/van/:id
+// @access  Public
+router.get(
+  '/van/:id',
+  asyncHandler(async (req, res) => {
+    const van = await Van.findOne({ user: req.params.id });
+
+    if (van) {
+      res.json(van);
+    } else {
+      res.status(404);
+      throw new Error('Van not found');
+    }
+  })
+);
 
 export default router;

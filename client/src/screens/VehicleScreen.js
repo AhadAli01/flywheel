@@ -19,6 +19,13 @@ const VehicleScreen = ({ match }) => {
   //const [vehicle, setVehicle] = useState({});
   const [auction, setAuction] = useState({});
   const [vehicle, setVehicle] = useState({});
+
+  const [bodyStyle, setBodyStyle] = useState({});
+  const [sedan, setSedan] = useState({});
+  const [suv, setSuv] = useState({});
+  const [van, setVan] = useState({});
+  const [truck, setTruck] = useState({});
+
   const [bidAmount, setBidAmount] = useState(0);
 
   const [allComments, setAllComments] = useState([]);
@@ -35,18 +42,49 @@ const VehicleScreen = ({ match }) => {
     const fetchAuction = async () => {
       const { data } = await axios.get(`/api/auctions/${match.params.id}`);
 
-      setAuction(data);
-      setVehicle(data.vehicle);
+      await setAuction(data);
+      await setVehicle(data.vehicle);
+      const bStyle = String(data.vehicle.bodyStyle);
+
+      setBodyStyle(bStyle.toLowerCase());
+      // console.log(bStyle.toLowerCase());
     };
 
     const fetchComments = async () => {
       const { data } = await axios.get('/api/vehicles/comments');
-      setAllComments(data);
+      await setAllComments(data);
       //console.log(allComments);
+    };
+
+    const fetchBodyStyle = async () => {
+      console.log(bodyStyle);
+      if (bodyStyle === 'sedan') {
+        const { sedanData } = await axios.get(
+          `/api/vehicles/sedan/${match.params.id}`
+        );
+        setSedan(sedanData);
+        console.log(sedan);
+      } else if (bodyStyle === 'suv') {
+        const { suvData } = await axios.get(
+          `/api/vehicles/suv/${match.params.id}`
+        );
+        setSuv(suvData);
+      } else if (bodyStyle === 'truck') {
+        const { truckData } = await axios.get(
+          `/api/vehicles/truck/${match.params.id}`
+        );
+        setTruck(truckData);
+      } else if (bodyStyle === 'van') {
+        const { vanData } = await axios.get(
+          `/api/vehicles/van/${match.params.id}`
+        );
+        setVan(vanData);
+      }
     };
 
     fetchComments();
     fetchAuction();
+    fetchBodyStyle();
   }, [match]);
 
   const addWatchlistHandler = async () => {
@@ -149,6 +187,9 @@ const VehicleScreen = ({ match }) => {
               Trans Type: {vehicle.transtype}
               <br />
               PowerTrain: {vehicle.powertrain}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              {bodyStyle === 'sedan' ? <>No. of Doors: {1 + 1}</> : <>bye</>}
             </ListGroup.Item>
           </ListGroup>
         </Col>
