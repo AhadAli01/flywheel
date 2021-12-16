@@ -18,6 +18,7 @@ function Comments(props) {
       variable = {
         content: Comment,
         user: user._id,
+        name: user.name,
         vehicle: props.vehicle,
       };
     } else {

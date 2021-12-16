@@ -36,6 +36,7 @@ const VehicleScreen = ({ match }) => {
     const fetchComments = async () => {
       const { data } = await axios.get('/api/vehicles/comments');
       setAllComments(data);
+      //console.log(allComments);
     };
 
     fetchComments();
