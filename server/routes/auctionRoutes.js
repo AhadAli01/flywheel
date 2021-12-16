@@ -38,7 +38,7 @@ router.get(
           res.send(auction);
         });
     } else {
-      // res.send([
+      // res.send(
       //   {
       //     purchasedVehicle: {
       //       make: 'Empty',
@@ -54,7 +54,7 @@ router.get(
       //   { paymentMethod: 'Empty' },
       //   { paidDate: 'Empty' },
       //   { deliveryDate: 'Empty' },
-      // ]);
+      // );
       res.send([
         {
           purchasedVehicle: {
