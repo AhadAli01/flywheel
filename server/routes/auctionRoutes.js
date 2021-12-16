@@ -80,6 +80,9 @@ router.post(
   })
 );
 
+// @desc    Updating auction status
+// @route   POST /api/auctions/expired
+// @access  Public
 router.post(
   '/expired',
   asyncHandler(async (req, res) => {
@@ -94,7 +97,7 @@ router.post(
           const c = new Date();
           if (c >= b) {
             const query = { _id: user._id, "watchlist._id": userWatchlist[i]._id};
-            const update = { $set: { 'watchlist.$.isSold': false } };
+            const update = { $set: { 'watchlist.$.isSold': true } };
             await User.updateOne(query, update);
           }
       }
@@ -105,8 +108,50 @@ router.post(
       const b = new Date(a);
       const c = new Date();
       if (c >= b) {
-        await Auction.updateOne({_id: auction._id}, { $set: {isSold: false} });
+        await Auction.updateOne({_id: auction._id}, { $set: {isSold: true} });
       }
+    }
+  })
+);
+
+// @desc    Creating orders
+// @route   GET /api/auctions/createorder
+// @access  Public
+router.post(
+  '/createorder',
+  asyncHandler(async (req, res) => {
+    const auctions = await Auction.find({isSold: true});
+    const d = new Date();
+    d.setDate(d.getDate() + 5);
+
+    for (const auction of auctions) {
+      const buyer = auction.winningbidder;
+      const seller = auction.seller._id;
+      const purchasedVehicle = auction.vehicle._id;
+      const price = auction.bidPrice;
+      const paymentMethod = "Cheque";
+      const fee = 5;
+      const paidDate = auction.expiryDate;
+      const deliveryDate = d.toString();
+
+      const newOrder = new Order({
+        buyer: buyer,
+        seller: seller,
+        purchasedVehicle: purchasedVehicle,
+        price: price,
+        paymentMethod: paymentMethod,
+        fee: fee,
+        paidDate: paidDate,
+        deliveryDate: deliveryDate,
+      });
+
+      newOrder.save(function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfully created order");
+        }
+      });
     }
   })
 );

@@ -70,7 +70,7 @@ const SellVehicle = ({ match, history }) => {
 
       const startDate = new Date();
       const endDate = new Date();
-      endDate.setDate(startDate.getDate() + 5);
+      endDate.setMinutes(startDate.getMinutes() + 1);
 
       const start = startDate.toString();
       const end = endDate.toString();
