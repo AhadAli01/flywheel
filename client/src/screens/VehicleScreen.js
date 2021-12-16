@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Comments from "../components/Comments";
+import AllComments from "../components/AllComments";
 import Message from '../components/Message';
 import axios from 'axios';
 
@@ -34,9 +35,7 @@ const VehicleScreen = ({ match }) => {
 
     const fetchComments = async () => {
       const { data } = await axios.get('/api/vehicles/comments');
-      const e = Array.from(data);
-      setAllComments(e);
-      console.log(e);
+      setAllComments(data);
     };
 
     fetchComments();
@@ -167,14 +166,11 @@ const VehicleScreen = ({ match }) => {
       </Row>
       <Row>
             <Col md={6}>
-            
+            <Comments vehicle={vehicle._id}/>
             {allComments.map((myComments) => (
-                <Comments allcomments = {myComments.content} />
-            ))}
-            
-    
+              <AllComments allComment={myComments} />
+            ))}    
             </Col> 
-
           </Row>
     </>
   );
