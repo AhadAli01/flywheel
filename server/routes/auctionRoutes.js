@@ -125,6 +125,10 @@ router.post(
     d.setDate(d.getDate() + 5);
 
     for (const auction of auctions) {
+      const dupOrder = await Order.find({purchasedVehicle: auction.vehicle._id});
+      if (dupOrder.length > 0) {
+        continue;
+      } else {
       const buyer = auction.winningbidder;
       const seller = auction.seller._id;
       const purchasedVehicle = auction.vehicle._id;
@@ -146,12 +150,13 @@ router.post(
       });
 
       newOrder.save(function (err) {
-        if (err) {
+          if (err) {
           console.log(err);
-        } else {
+          } else {
           console.log("Successfully created order");
-        }
-      });
+          }
+        });
+      }
     }
   })
 );
