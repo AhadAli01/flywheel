@@ -12,7 +12,7 @@ const VehicleScreen = ({ match }) => {
   const [vehicle, setVehicle] = useState({});
   const [bidAmount, setBidAmount] = useState(0);
 
-  const [allComments, setAllComments] = useState({});
+  const [allComments, setAllComments] = useState([]);
 
 
 
@@ -168,9 +168,9 @@ const VehicleScreen = ({ match }) => {
       <Row>
             <Col md={6}>
             
-            {/* {allComments.map((myComments) => (
+            {allComments.map((myComments) => (
                 <Comments allcomments = {myComments.content} />
-            ))} */}
+            ))}
             
     
             </Col> 
