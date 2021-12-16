@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Table } from 'react-bootstrap';
+//import Vehicle from '../components/Vehicle';
 import { useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -26,7 +27,7 @@ const Dashboard = ({auth}) => {
   if(auth === 0){
     return(<Redirect to = "/login"/>);
   }
-  else{
+  else {
 
 
   const update = async (event) => {
@@ -116,12 +117,24 @@ const Dashboard = ({auth}) => {
             <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>Vehicle Name</th>
-                <th>Bid Amount</th>
-                <th>Issued Time</th>
-                <th>Expired Time</th>
+                <th>Vehicle Name/Image</th>
+                <th>Seller Name</th>
+                <th>Total Price</th>
+                <th>Payment Method</th>
+                <th>Paid Date</th>
+                <th>Delivery Date</th>
               </tr>
             </thead>
+            <tbody>
+              <tr>
+                <td>Image</td>
+                <td>Image</td>
+                <td>Image</td>
+                <td>Image</td>
+                <td>Image</td>
+                <td>Image</td>
+              </tr>
+            </tbody>
             </Table>
       </Col>
     </Row>
