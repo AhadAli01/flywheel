@@ -12,6 +12,7 @@ const VehicleScreen = ({ match }) => {
   const [vehicle, setVehicle] = useState({});
   const [bidAmount, setBidAmount] = useState(0);
 
+  const [allComments, setAllComments] = useState({});
 
 
 
@@ -31,6 +32,14 @@ const VehicleScreen = ({ match }) => {
       setVehicle(data.vehicle);
     };
 
+    const fetchComments = async () => {
+      const { data } = await axios.get('/api/vehicles/comments');
+      const e = Array.from(data);
+      setAllComments(e);
+      console.log(e);
+    };
+
+    fetchComments();
     fetchAuction();
   }, [match]);
 
@@ -158,21 +167,14 @@ const VehicleScreen = ({ match }) => {
       </Row>
       <Row>
             <Col md={6}>
-              {/* <h2>Comments</h2>
-               {vehicle.comments.length === 0 && <Message>No Reviews</Message>}
-              <ListGroup variant='flush'></ListGroup>
-              {vehicle.comments.map((comment) => (
-                <ListGroup.Item key={comment._id}>
-                <strong>{comment.name}</strong>
-                <p>{comment.createdAt.substring(0, 10)}</p>
-                <p>{comment.comment}</p>
-                </ListGroup.Item>
-              ))} 
-              <ListGroup.Item>
-                <h2>Write a Comment</h2>
-              </ListGroup.Item> */}
-              <Comments CommentLists={CommentLists} vehicle={vehicle._id} refreshFunction={updateComment} />
-            </Col>
+            
+            {/* {allComments.map((myComments) => (
+                <Comments allcomments = {myComments.content} />
+            ))} */}
+            
+    
+            </Col> 
+
           </Row>
     </>
   );

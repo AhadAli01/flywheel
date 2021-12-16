@@ -91,7 +91,7 @@ router.post(
 
 //fix this...
 router.post(
-  '/dashboard',
+  '/profile',
   asyncHandler(async (req, res) => {
     //const name = req.body.name;
     //const email = req.body.email;

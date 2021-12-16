@@ -1,7 +1,7 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
-import { Vehicle, Sedan, Suv, Van, Truck, Comment } from '../models/vehicleModel.js';
+import { Vehicle, Sedan, Suv, Van, Truck, Comment, Auction } from '../models/vehicleModel.js';
 
 
 
@@ -10,6 +10,16 @@ import { Vehicle, Sedan, Suv, Van, Truck, Comment } from '../models/vehicleModel
 // @desc    Fetch all vehicles
 // @route   GET /api/vehicles
 // @access  Public
+
+router.get(
+  '/comments',
+  asyncHandler(async (req, res) => {
+    const comment = await Comment.find({});
+    res.json(comment);
+  })
+);
+
+
 router.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -166,6 +176,9 @@ router.post("/saveComment", (req, res) => {
       });
   //})
 });
+
+
+
 
 
 export default router;

@@ -6,7 +6,7 @@ const data = localStorage.getItem('userData');
 const user = JSON.parse(data);
 
 function Comments(props) {
-  const [allComments, setallComments] = useState({});
+  //const [allComments, setallComments] = useState({});
   const [Comment, setComment] = useState('');
   const handleChange = (e) => {
     setComment(e.currentTarget.value);
@@ -26,19 +26,6 @@ function Comments(props) {
       // return;
     }
     e.preventDefault();
-    // axios.post('/api/vehicles/saveComment', variable)
-    // .then(response=> {
-    //     if (response.data.errMessage) {
-    //         alert(response.data.errMessage);
-    //       } else {
-    //         if (response.data.successMessage) {
-    //         alert("commented!")
-    //         setComment("")
-    //         props.refreshFunction(response.data.result)
-    //         setallComments(allComments.concat(response.data.result))
-    //         }
-    //       }
-    // })
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -50,8 +37,9 @@ function Comments(props) {
         variable,
         config
       );
-      //   console.log(data);
       alert('Comment successfully added!');
+      setComment("")
+      //props.refreshFunction(data)
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -62,7 +50,6 @@ function Comments(props) {
       <p> Comments</p>
       <hr />
       {/* Comment Lists*/}
-      {console.log(props.CommentLists)}
 
       {/* Root Comment Form*/}
       <form style={{ display: 'flex' }} onSubmit={onSubmit}>
