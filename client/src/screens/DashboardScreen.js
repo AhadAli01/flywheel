@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Table } from 'react-bootstrap';
-//import Vehicle from '../components/Vehicle';
+import OrderRows from '../components/OrderRows';
 import { useHistory, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -70,7 +70,7 @@ const Dashboard = ({auth}) => {
   return (
     <div className="App">
     <Row>
-      <Col md={3}>
+      <Col md={5} style={{paddingBottom: "30px"}}>
         <h3>User Profile</h3>
         <Form onSubmit={update}>
           <input
@@ -112,7 +112,7 @@ const Dashboard = ({auth}) => {
           </button>
         </Form>
       </Col>
-      <Col md={9}>
+      <Col md={12} style={{paddingBottom: "30px"}}>
             <h2>Orders</h2>
             <Table striped bordered hover responsive className='table-sm'>
             <thead>
@@ -127,12 +127,36 @@ const Dashboard = ({auth}) => {
             </thead>
             <tbody>
               <tr>
-                <td>Image</td>
-                <td>Image</td>
-                <td>Image</td>
-                <td>Image</td>
-                <td>Image</td>
-                <td>Image</td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
+                <td>
+              <Col xl={12}>
+                <OrderRows></OrderRows>
+              </Col>
+                </td>
               </tr>
             </tbody>
             </Table>
