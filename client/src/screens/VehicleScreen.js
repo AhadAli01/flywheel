@@ -147,7 +147,7 @@ const VehicleScreen = ({ match }) => {
                   <Col>Status:</Col>
                   <Col>
                     {/* (TBD) Will have to add isSold attribute to check if sold or not */}
-                    {true ? 'In Auction' : 'Sold'}
+                    {auction.isSold ? 'Sold' : 'In Auction'}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -156,7 +156,7 @@ const VehicleScreen = ({ match }) => {
                 setBidAmount(event.target.value);
                 }}/>
                 {/* Check if sold and replace false */}
-                <Button className='w-100' type='button' disabled={false} onClick={updatePriceHandler}>
+                <Button className='w-100' type='button' disabled={auction.isSold ? true : false} onClick={updatePriceHandler}>
                   Make a Bid
                 </Button>
               </ListGroup.Item>
@@ -164,7 +164,7 @@ const VehicleScreen = ({ match }) => {
                 <Button
                   className='w-100'
                   type='button'
-                  disabled={false}
+                  disabled={auction.isSold ? true : false}
                   onClick={addWatchlistHandler}
                 >
                   Add to Watchlist
