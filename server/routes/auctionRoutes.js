@@ -12,6 +12,19 @@ import {
   Truck,
 } from '../models/vehicleModel.js';
 
+// @desc    Fetch all orders
+// @route   GET /api/auctions/getorders
+// @access  Public
+router.get(
+  '/getorders',
+  asyncHandler(async (req, res) => {
+     Order.find().populate('buyer').populate('seller').populate('purchasedVehicle').exec(function (err, auction) {
+        if (err) return handleError(err);
+        res.send(auction);
+      });
+  })
+);
+
 // @desc    Fetch all auctions
 // @route   GET /api/auctions
 // @access  Public
