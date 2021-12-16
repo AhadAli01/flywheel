@@ -53,7 +53,7 @@ const HomeScreen = () => {
           <Row>
             {auctions.map((auction) => (
               <Col key={auction._id} sm={12} lg={6} xl={4}>
-                <Vehicle auctionId={auction._id} vehicle={auction.vehicle} auctionPrice={auction.bidPrice} auctionStatus={auction.isSold}/>
+                <Vehicle auctionId={auction._id} vehicle={auction.vehicle} auctionPrice={auction.bidPrice} auctionStatus={auction.isSold} auctionBidder={auction.winningbidder}/>
               </Col>
             ))}
           </Row>

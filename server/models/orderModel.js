@@ -13,26 +13,31 @@ const orderSchema = mongoose.Schema(
       ref: 'User',
     },
     purchasedVehicle: {
-      name: { type: String, required: true },
-      price: { type: Number, required: true },
-      image: { type: String, required: true },
-      vehicle: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Vehicle',
-      },
     },
     // Add address later??
-    orderType: {
-      type: String,
+    price: {
+      type: Number,
+      required: true
     },
     paymentMethod: {
       type: String,
+      required: true
     },
     fee: {
       type: Number,
       required: true
     },
+    paidDate: {
+      type: String,
+      required: true
+    },
+    deliveryDate: {
+      type: String,
+      required: true
+    }
   },
   {
     //   Paid at Date/Delivery Date
