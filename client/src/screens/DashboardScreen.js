@@ -24,6 +24,11 @@ const Dashboard = ({auth}) => {
 
   useEffect(() => {
 
+    if (auth == 0) {
+      history.push("/login");
+      return;
+    }
+
     const createOrders = async () => {
       await axios.post('api/auctions/createorder');
     };
