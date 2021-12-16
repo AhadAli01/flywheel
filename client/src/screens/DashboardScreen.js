@@ -22,6 +22,13 @@ const Dashboard = ({auth}) => {
   //   });
   // }, []);
 
+  useEffect(() => {
+    const createOrders = async () => {
+      await axios.post('api/auctions/createorder');
+    };
+    createOrders();
+  }, []);
+
   const history = useHistory();
   
   if(auth === 0){
