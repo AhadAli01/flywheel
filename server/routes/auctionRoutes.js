@@ -29,13 +29,49 @@ router.get(
     }
 
     if (userFound) {
-      Order.find().populate('buyer').populate('seller').populate('purchasedVehicle').exec(function (err, auction) {
-        if (err) return handleError(err);
-        res.send(auction);
-      });
+      Order.find()
+        .populate('buyer')
+        .populate('seller')
+        .populate('purchasedVehicle')
+        .exec(function (err, auction) {
+          if (err) return handleError(err);
+          res.send(auction);
+        });
     } else {
-      res.send({purchasedVehicle: {make: "Empty", model: "Empty", image: "https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png"}},
-      {seller: {name: "Empty"}}, {buyer: {name: "Empty"}}, {price: 0}, {fee: 0}, {paymentMethod: "Empty"}, {paidDate: "Empty"}, {deliveryDate: "Empty"});
+      // res.send([
+      //   {
+      //     purchasedVehicle: {
+      //       make: 'Empty',
+      //       model: 'Empty',
+      //       image:
+      //         'https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png',
+      //     },
+      //   },
+      //   { seller: { name: 'Empty' } },
+      //   { buyer: { name: 'Empty' } },
+      //   { price: 0 },
+      //   { fee: 0 },
+      //   { paymentMethod: 'Empty' },
+      //   { paidDate: 'Empty' },
+      //   { deliveryDate: 'Empty' },
+      // ]);
+      res.send([
+        {
+          purchasedVehicle: {
+            make: 'Empty',
+            model: 'Empty',
+            image:
+              'https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png',
+          },
+          seller: { name: 'Empty' },
+          buyer: { name: 'Empty' },
+          price: 0,
+          fee: 0,
+          paymentMethod: 'Empty',
+          paidDate: 'Empty',
+          deliveryDate: 'Empty',
+        },
+      ]);
     }
   })
 );
@@ -88,14 +124,16 @@ router.post(
     const userFound = await User.find();
 
     if (bidAmount - auction.bidPrice == 100) {
+      await Auction.updateOne(
+        { _id: auctionID },
+        { $set: { winningbidder: user, bidPrice: bidAmount } }
+      );
 
-      await Auction.updateOne({ _id: auctionID }, { $set: { winningbidder: user, bidPrice: bidAmount } });
-      
       for (const userF of userFound) {
         const userWatchlist = userF.watchlist;
         for (let i = 0; i < userWatchlist.length; i++) {
           if (userWatchlist[i]._id === auctionID) {
-            const query = { _id: userF._id, "watchlist._id": auctionID};
+            const query = { _id: userF._id, 'watchlist._id': auctionID };
             const update = { $set: { 'watchlist.$.bidPrice': bidAmount } };
             await User.updateOne(query, update);
           }
@@ -103,7 +141,10 @@ router.post(
       }
       res.send({ successMessage: 'Successfully updated price' });
     } else {
-      res.send({ errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
+      res.send({
+        errMessage:
+          'Invalid bid amount, bids must be integers and increments of 100',
+      });
     }
   })
 );
@@ -120,14 +161,17 @@ router.post(
     for (const user of users) {
       const userWatchlist = user.watchlist;
       for (let i = 0; i < userWatchlist.length; i++) {
-          const a = Date.parse(userWatchlist[i].expiryDate);
-          const b = new Date(a);
-          const c = new Date();
-          if (c >= b) {
-            const query = { _id: user._id, "watchlist._id": userWatchlist[i]._id};
-            const update = { $set: { 'watchlist.$.isSold': true } };
-            await User.updateOne(query, update);
-          }
+        const a = Date.parse(userWatchlist[i].expiryDate);
+        const b = new Date(a);
+        const c = new Date();
+        if (c >= b) {
+          const query = {
+            _id: user._id,
+            'watchlist._id': userWatchlist[i]._id,
+          };
+          const update = { $set: { 'watchlist.$.isSold': true } };
+          await User.updateOne(query, update);
+        }
       }
     }
 
@@ -136,52 +180,57 @@ router.post(
       const b = new Date(a);
       const c = new Date();
       if (c >= b) {
-        await Auction.updateOne({_id: auction._id}, { $set: {isSold: true} });
+        await Auction.updateOne(
+          { _id: auction._id },
+          { $set: { isSold: true } }
+        );
       }
     }
   })
 );
 
 // @desc    Creating orders
-// @route   GET /api/auctions/createorder
+// @route   POST /api/auctions/createorder
 // @access  Public
 router.post(
   '/createorder',
   asyncHandler(async (req, res) => {
-    const auctions = await Auction.find({isSold: true});
+    const auctions = await Auction.find({ isSold: true });
     const d = new Date();
     d.setDate(d.getDate() + 5);
 
     for (const auction of auctions) {
-      const dupOrder = await Order.find({purchasedVehicle: auction.vehicle._id});
+      const dupOrder = await Order.find({
+        purchasedVehicle: auction.vehicle._id,
+      });
       if (dupOrder.length > 0) {
         continue;
       } else {
-      const buyer = auction.winningbidder;
-      const seller = auction.seller._id;
-      const purchasedVehicle = auction.vehicle._id;
-      const price = auction.bidPrice;
-      const paymentMethod = "Cheque";
-      const fee = 5;
-      const paidDate = auction.expiryDate;
-      const deliveryDate = d.toString();
+        const buyer = auction.winningbidder;
+        const seller = auction.seller._id;
+        const purchasedVehicle = auction.vehicle._id;
+        const price = auction.bidPrice;
+        const paymentMethod = 'Cheque';
+        const fee = 5;
+        const paidDate = auction.expiryDate;
+        const deliveryDate = d.toString();
 
-      const newOrder = new Order({
-        buyer: buyer,
-        seller: seller,
-        purchasedVehicle: purchasedVehicle,
-        price: price,
-        paymentMethod: paymentMethod,
-        fee: fee,
-        paidDate: paidDate,
-        deliveryDate: deliveryDate,
-      });
+        const newOrder = new Order({
+          buyer: buyer,
+          seller: seller,
+          purchasedVehicle: purchasedVehicle,
+          price: price,
+          paymentMethod: paymentMethod,
+          fee: fee,
+          paidDate: paidDate,
+          deliveryDate: deliveryDate,
+        });
 
-      newOrder.save(function (err) {
+        newOrder.save(function (err) {
           if (err) {
-          console.log(err);
+            console.log(err);
           } else {
-          console.log("Successfully created order");
+            console.log('Successfully created order');
           }
         });
       }
