@@ -16,12 +16,27 @@ import {
 // @route   GET /api/auctions/getorders
 // @access  Public
 router.get(
-  '/getorders',
+  '/:id/getorders',
   asyncHandler(async (req, res) => {
-     Order.find().populate('buyer').populate('seller').populate('purchasedVehicle').exec(function (err, auction) {
+    const userID = req.params.id;
+    const orders = await Order.find();
+    let userFound = false;
+
+    for (const order of orders) {
+      if (order.buyer._id == userID || order.seller._id == userID) {
+        userFound = true;
+      }
+    }
+
+    if (userFound) {
+      Order.find().populate('buyer').populate('seller').populate('purchasedVehicle').exec(function (err, auction) {
         if (err) return handleError(err);
         res.send(auction);
       });
+    } else {
+      res.send({purchasedVehicle: {make: "Empty", model: "Empty", image: "https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png"}},
+      {seller: {name: "Empty"}}, {buyer: {name: "Empty"}}, {price: 0}, {fee: 0}, {paymentMethod: "Empty"}, {paidDate: "Empty"}, {deliveryDate: "Empty"});
+    }
   })
 );
 

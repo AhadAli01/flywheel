@@ -6,10 +6,9 @@ import axios from 'axios';
 
 
 
-const data = localStorage.getItem("userData");
-const user = JSON.parse(data);
-
 const Dashboard = ({auth}) => {
+  const data = localStorage.getItem("userData");
+  const user = JSON.parse(data);
   const [profile, setProfile] = useState([]);
   const [newName, setNewName] = useState('');
   const [newAddress, setNewAddress] = useState('');
@@ -24,12 +23,13 @@ const Dashboard = ({auth}) => {
   // }, []);
 
   useEffect(() => {
+
     const createOrders = async () => {
       await axios.post('api/auctions/createorder');
     };
 
     const getOrders = async () => {
-      const { data } = await axios.get('api/auctions/getorders');
+      const { data } = await axios.get(`/api/auctions/${user._id}/getorders`);
       setOrders(data);
     };
     getOrders();
