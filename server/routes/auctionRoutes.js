@@ -56,34 +56,25 @@ router.post(
     const bidAmount = req.body.bidAmount;
 
     const auction = await Auction.findById(auctionID);
+    const userFound = await User.find();
+
     if (bidAmount - auction.bidPrice == 100) {
-      await Auction.updateOne(
-        { _id: auctionID },
-        { $set: { winningbidder: user, bidPrice: bidAmount } }
-      );
-      const userFound = await User.find();
+
+      await Auction.updateOne({ _id: auctionID }, { $set: { winningbidder: user, bidPrice: bidAmount } });
+      
       for (const userF of userFound) {
-        const auctionAdded = userF.watchlist.find(
-          (w) => w._id.toString() === auction._id.toString()
-        );
-        if (auctionAdded) {
-          const query = { _id: userF._id };
-          const update = { $set: { 'watchlist.$[].bidPrice': bidAmount } };
-          await User.updateOne(query, update);
+        const userWatchlist = userF.watchlist;
+        for (let i = 0; i < userWatchlist.length; i++) {
+          if (userWatchlist[i]._id === auctionID) {
+            const query = { _id: userF._id, "watchlist._id": auctionID};
+            const update = { $set: { 'watchlist.$.bidPrice': bidAmount } };
+            await User.updateOne(query, update);
+          }
         }
       }
-      //const auctionAdded = userFound.watchlist.find((w) => w._id.toString() === auction._id.toString());
-      // if (auctionAdded) {
-      //   const query = {_id: user};
-      //   const update = { $set: {"watchlist.$[].bidPrice": bidAmount} };
-      //   await User.updateOne(query, update);
-      // }
       res.send({ successMessage: 'Successfully updated price' });
     } else {
-      res.send({
-        errMessage:
-          'Invalid bid amount, bids must be integers and increments of 100',
-      });
+      res.send({ errMessage: 'Invalid bid amount, bids must be integers and increments of 100'});
     }
   })
 );
@@ -94,25 +85,28 @@ router.post(
     const auctions = await Auction.find();
     const users = await User.find();
 
-    for (const auction of auctions) {
-      await Auction.updateOne({ _id: auction._id }, { $set: { isSold: true } });
-      //console.log("hello this ran");
-    }
     for (const user of users) {
-      await User.updateOne(
-        { _id: user._id },
-        { $set: { 'watchlist.$[].isSold': true } }
-      );
+      const userWatchlist = user.watchlist;
+      for (let i = 0; i < userWatchlist.length; i++) {
+          const a = Date.parse(userWatchlist[i].expiryDate);
+          const b = new Date(a);
+          const c = new Date();
+          if (c >= b) {
+            const query = { _id: user._id, "watchlist._id": userWatchlist[i]._id};
+            const update = { $set: { 'watchlist.$.isSold': false } };
+            await User.updateOne(query, update);
+          }
+      }
     }
-    // await Auction.find().forEach(function(a) {
-    //   //const b = Date.parse(a.expiryDate);
-    //   //const c = new Date(b);
-    //   //const d = new Date();
-    //   //if (d >= c) {
-    //   await Auction.updateOne({_id: a._id}, { $set: {isSold: true} });
-    //    console.log("hello this ran");
-    //   //}
-    // });
+
+    for (const auction of auctions) {
+      const a = Date.parse(auction.expiryDate);
+      const b = new Date(a);
+      const c = new Date();
+      if (c >= b) {
+        await Auction.updateOne({_id: auction._id}, { $set: {isSold: false} });
+      }
+    }
   })
 );
 
