@@ -94,6 +94,7 @@ const Dashboard = ({auth}) => {
               setNewName(event.target.value);
             }}
             placeholder={user.name}
+            readOnly
           />
           <input
             className='parbirInputs'
@@ -103,6 +104,7 @@ const Dashboard = ({auth}) => {
               setNewEmail(event.target.value);
             }}
             placeholder={user.email}
+            readOnly
           />
           <input
             className='parbirInputs'
