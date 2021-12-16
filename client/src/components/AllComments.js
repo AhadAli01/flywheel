@@ -6,14 +6,16 @@ const data = localStorage.getItem('userData');
 const user = JSON.parse(data);
 
 function AllComments(myComments) {
+    console.log(myComments.allComment.content);
+
     return (
-        <div>
-            <h1 style={{ fontSize: 20 }}>
-                {user.name}
+        <div style={{ boarderBottom: '2px solid black' }}>
+            <h1 style={{ fontSize: 15, paddingTop: 50 }}>
+                {`${myComments.allComment.name}`}
             </h1>
-            <p>
-                {/* {myComments}  */}
-            </p>
+            <strong>
+              {`${myComments.allComment.content}`}
+            </strong>
         </div>
     )
 }
