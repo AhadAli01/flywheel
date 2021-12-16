@@ -1,10 +1,12 @@
 import React from 'react';
 
-const OrderRows = () => {
+const OrderRows = ({orderInfo, orderImageNum, orderImage}) => {
     return(
         <tbody>
               <tr>
-                <td>Image</td>
+                {orderImageNum === 1 ? 
+                (<td><img src={orderImage} width={230} height={150}/>{orderInfo}</td>) : 
+                (<td>{orderInfo}</td>)}
               </tr>
         </tbody>
     );

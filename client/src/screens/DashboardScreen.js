@@ -15,6 +15,7 @@ const Dashboard = ({auth}) => {
   const [newAddress, setNewAddress] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
+  const [orders, setOrders] = useState([]);
 
   // useEffect(() => {
   //   axios.get('/api/users').then((response) => {
@@ -26,6 +27,12 @@ const Dashboard = ({auth}) => {
     const createOrders = async () => {
       await axios.post('api/auctions/createorder');
     };
+
+    const getOrders = async () => {
+      const { data } = await axios.get('api/auctions/getorders');
+      setOrders(data);
+    };
+    getOrders();
     createOrders();
   }, []);
 
@@ -132,40 +139,42 @@ const Dashboard = ({auth}) => {
                 <th>Delivery Date</th>
               </tr>
             </thead>
-            <tbody>
+            {orders.map((order) => (
+              <tbody>
               <tr>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.purchasedVehicle.make + " " + order.purchasedVehicle.model} orderImageNum={1} orderImage={order.purchasedVehicle.image}/>
               </Col>
                 </td>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.seller.name}/>
               </Col>
                 </td>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.price + order.fee}/>
               </Col>
                 </td>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.paymentMethod}/>
               </Col>
                 </td>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.paidDate}/>
               </Col>
                 </td>
                 <td>
               <Col xl={12}>
-                <OrderRows></OrderRows>
+                <OrderRows orderInfo={order.deliveryDate}/>
               </Col>
                 </td>
               </tr>
             </tbody>
+            ))}
             </Table>
       </Col>
     </Row>
