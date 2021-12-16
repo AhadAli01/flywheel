@@ -92,6 +92,8 @@ const VehicleScreen = ({ match }) => {
     }
   }; 
 
+  vehicle.numComments = allComments.length;
+  console.log(allComments.length);
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>

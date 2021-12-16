@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { useHistory, Redirect } from 'react-router-dom';
 
 const data = localStorage.getItem('userData');
 const user = JSON.parse(data);
@@ -8,6 +9,9 @@ const user = JSON.parse(data);
 function Comments(props) {
   //const [allComments, setallComments] = useState({});
   const [Comment, setComment] = useState('');
+  
+  const history = useHistory();
+
   const handleChange = (e) => {
     setComment(e.currentTarget.value);
   };
@@ -23,8 +27,7 @@ function Comments(props) {
       };
     } else {
       alert('Please login');
-      // history.push('/login')
-      // return;
+      return(<Redirect to = "/login"/>);
     }
     e.preventDefault();
     const config = {
@@ -40,6 +43,7 @@ function Comments(props) {
       );
       alert('Comment successfully added!');
       setComment("")
+      window.location.reload();
       //props.refreshFunction(data)
     } catch (err) {
       alert(err.response.data.message);

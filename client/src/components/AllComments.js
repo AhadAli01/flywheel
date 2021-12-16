@@ -6,7 +6,7 @@ const data = localStorage.getItem('userData');
 const user = JSON.parse(data);
 
 function AllComments(myComments) {
-    console.log(myComments.allComment.content);
+    //console.log(myComments.allComment.content);
 
     return (
         <div style={{ boarderBottom: '2px solid black' }}>
