@@ -14,12 +14,6 @@ const Dashboard = ({ auth }) => {
   const [newEmail, setNewEmail] = useState('');
   const [orders, setOrders] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get('/api/users').then((response) => {
-  //     setProfile(response.data);
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (auth == 0) {
       history.push('/login');
@@ -33,10 +27,17 @@ const Dashboard = ({ auth }) => {
     const getOrders = async () => {
       const { data } = await axios.get(`/api/auctions/${user._id}/getorders`);
       setOrders(data);
-      console.log(orders);
+      // console.log(orders);
+    };
+
+    const getProfile = async () => {
+      const { data } = await axios.get(`/api/users/profile/${user._id}`);
+      setNewPhone(data.phone);
+      setNewAddress(data.address);
     };
     getOrders();
     createOrders();
+    getProfile();
   }, []);
 
   const history = useHistory();
@@ -65,6 +66,15 @@ const Dashboard = ({ auth }) => {
         );
         alert('Profile updated');
         sessionStorage.setItem('profileData', JSON.stringify(data));
+
+        const getProfile = async () => {
+          const { data } = await axios.get(`/api/users/profile/${user._id}`);
+          setNewPhone(data.phone);
+          setNewAddress(data.address);
+        };
+
+        getProfile();
+
         window.location.reload();
       } catch (err) {
         alert(err.response.data.message);
@@ -109,6 +119,7 @@ const Dashboard = ({ auth }) => {
                 className='parbirInputs'
                 type='phone'
                 name='phone'
+                value={newPhone}
                 onChange={(event) => {
                   setNewPhone(event.target.value);
                 }}
@@ -117,6 +128,7 @@ const Dashboard = ({ auth }) => {
               <input
                 className='parbirInputs'
                 type='address'
+                value={newAddress}
                 onChange={(event) => {
                   setNewAddress(event.target.value);
                 }}

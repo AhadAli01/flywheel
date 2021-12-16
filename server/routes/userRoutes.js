@@ -89,6 +89,25 @@ router.post(
   })
 );
 
+// @desc    Fetch single user
+// @route   GET /api/users/profile/:id
+// @access  Public
+router.get(
+  '/profile/:id',
+  asyncHandler(async (req, res) => {
+    // const user = await User.findById(req.params.id);
+
+    const profile = await Profile.findOne({ user: req.params.id });
+
+    if (profile) {
+      res.json(profile);
+    } else {
+      res.status(404);
+      throw new Error('profile not found');
+    }
+  })
+);
+
 //fix this...
 router.post(
   '/profile',
