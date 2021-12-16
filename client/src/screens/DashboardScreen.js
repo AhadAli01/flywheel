@@ -102,7 +102,7 @@ const Dashboard = ({ auth }) => {
                 onChange={(event) => {
                   setNewName(event.target.value);
                 }}
-                placeholder={user.name}
+                value={user.name}
                 readOnly
               />
               <input
@@ -112,7 +112,7 @@ const Dashboard = ({ auth }) => {
                 onChange={(event) => {
                   setNewEmail(event.target.value);
                 }}
-                placeholder={user.email}
+                value={user.email}
                 readOnly
               />
               <input
