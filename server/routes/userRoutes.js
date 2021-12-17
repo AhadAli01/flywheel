@@ -184,38 +184,37 @@ router.post(
   })
 );
 
-
 router.post(
   '/admin/:id',
   asyncHandler(async (req, res) => {
-    const admin = new Admin(req.body);
+    const admin = req.body;
 
-    //const user = await User.findById(req.params.id);
-
-
-    if (Admin) {
-      // res.json(vehicle);
-      // user.watchlist.push(auction);
-      //vehicle.comments.push(comment);
-      // await user.save();
-      //await vehicle.save();
-      // res.json(user.watchlist);
-      //res.json(vehicle.comments);
-      res.send(admin);
+    if (admin) {
+      await Admin.create(admin);
+      res.json(admin);
     } else {
       res.status(404);
-      throw new Error('Cannot save admin');
+      throw new Error('Invalid user data');
     }
-    //})
   })
 );
 
 router.get(
   '/admin/:id',
   asyncHandler(async (req, res) => {
-    const admin = await Admin.find({});
-    res.json(admin);
+    // const admin = await Admin.findById(req.params.id);
+    // res.send(admin);
+
+    const admin = await Admin.findOne({ user: req.params.id });
+
+    if (admin) {
+      res.json(admin);
+    } else {
+      res.status(404);
+      throw new Error('Admin not found');
+    }
   })
+  // })
 );
 
 export default router;

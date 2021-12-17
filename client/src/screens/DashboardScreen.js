@@ -14,6 +14,7 @@ const Dashboard = ({ auth }) => {
   const [newEmail, setNewEmail] = useState('');
   const [orders, setOrders] = useState([]);
   const [admin, setAdmin] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (auth == 0) {
@@ -42,14 +43,21 @@ const Dashboard = ({ auth }) => {
       await setAdmin(data);
       //console.log(allComments);
     };
-    
-    if(user.isAdmin === true){
+
+    const fetchUsers = async () => {
+      const { data } = await axios.get(`/api/users`);
+      await setUsers(data);
+    };
+
+    if (user.isAdmin === true) {
+      // adminPost();
       fetchAdmin();
     }
-    
+
     createOrders();
     getOrders();
     getProfile();
+    fetchUsers();
   }, []);
 
   const history = useHistory();
@@ -93,88 +101,74 @@ const Dashboard = ({ auth }) => {
       }
     };
 
-    const adminPost = async (event) => {
-      let variable = {}
-        variable = {
-          user: user._id,
-          name: user.name,
-          address: newAddress,
-          phone: newPhone,
-          password: user.password,
-          officeLoc: "Disney Springs",
-          position: "Senior",
-        };
-      //event.preventDefault();
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      try {
-        const { data } = await axios.post(
-          `/api/users/admin/${user._id}`,
-          variable,
-          config
-        );
-        //window.location.reload();
-      } catch (err) {
-        alert(err.response.data.message);
-      }
-    }
-
-    if(user.isAdmin === true){
-      adminPost();
-    }
-
     return (
       <div className='App'>
         <Row>
-          <Col md={5} style={{ paddingBottom: '30px' }}>
-            <h3>User Profile</h3>
-            <Form onSubmit={update}>
-              <input
-                className='parbirInputs'
-                type='name'
-                onChange={(event) => {
-                  setNewName(event.target.value);
-                }}
-                value={user.name}
-                readOnly
-              />
-              <input
-                className='parbirInputs'
-                type='email'
-                name='email'
-                onChange={(event) => {
-                  setNewEmail(event.target.value);
-                }}
-                value={user.email}
-                readOnly
-              />
-              <input
-                className='parbirInputs'
-                type='phone'
-                name='phone'
-                value={newPhone}
-                onChange={(event) => {
-                  setNewPhone(event.target.value);
-                }}
-                placeholder='Enter phone number'
-              />
-              <input
-                className='parbirInputs'
-                type='address'
-                value={newAddress}
-                onChange={(event) => {
-                  setNewAddress(event.target.value);
-                }}
-                placeholder='Enter Address'
-              />
-              <button className='parbirButton' type='submit' onClick={update}>
-                Update
-              </button>
-            </Form>
+          <Col md={3} lg={4} xl={4} style={{ paddingBottom: '30px' }}></Col>
+          <Col>
+            {user.isAdmin ? (
+              <>
+                <p>Name:{admin.name}</p>
+                <p>Phone: {admin.phone}</p>
+                <p>Address: {admin.address}</p>
+                <p>Position: {admin.position}</p>
+                <p>Office Location: {admin.officeLoc}</p>
+              </>
+            ) : (
+              <>
+                <h3>User Profile</h3>
+                <Form onSubmit={update}>
+                  <input
+                    className='parbirInputs'
+                    type='name'
+                    onChange={(event) => {
+                      setNewName(event.target.value);
+                    }}
+                    value={user.name}
+                    readOnly
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='email'
+                    name='email'
+                    onChange={(event) => {
+                      setNewEmail(event.target.value);
+                    }}
+                    value={user.email}
+                    readOnly
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='phone'
+                    name='phone'
+                    value={newPhone}
+                    onChange={(event) => {
+                      setNewPhone(event.target.value);
+                    }}
+                    placeholder='Enter phone number'
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='address'
+                    value={newAddress}
+                    onChange={(event) => {
+                      setNewAddress(event.target.value);
+                    }}
+                    placeholder='Enter Address'
+                  />
+                  <button
+                    className='parbirButton'
+                    type='submit'
+                    onClick={update}
+                  >
+                    Update
+                  </button>
+                </Form>
+              </>
+            )}
           </Col>
+        </Row>
+        <Row>
           <Col md={12} style={{ paddingBottom: '30px' }}>
             <h2>Orders</h2>
             <Table striped bordered hover responsive className='table-sm'>
@@ -238,95 +232,30 @@ const Dashboard = ({ auth }) => {
                     </td>
                   </tr>
                 ))}
-                {/* {orders.map((order) => {
-                  <tr>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows
-                          orderInfo={
-                            order.purchasedVehicle.make +
-                            ' ' +
-                            order.purchasedVehicle.model
-                          }
-                          orderImageNum={1}
-                          orderImage={order.purchasedVehicle.image}
-                        />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.seller.name} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.price + order.fee} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.paymentMethod} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.paidDate} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.deliveryDate} />
-                      </Col>
-                    </td>
-                  </tr>;
-                })} */}
               </tbody>
-              {/* {orders.map((order) => (
-                <tbody>
-                  <tr>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows
-                          orderInfo={
-                            order.purchasedVehicle.make +
-                            ' ' +
-                            order.purchasedVehicle.model
-                          }
-                          orderImageNum={1}
-                          orderImage={order.purchasedVehicle.image}
-                        />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.seller.name} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.price + order.fee} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.paymentMethod} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.paidDate} />
-                      </Col>
-                    </td>
-                    <td>
-                      <Col xl={12}>
-                        <OrderRows orderInfo={order.deliveryDate} />
-                      </Col>
-                    </td>
-                  </tr>
-                </tbody>
-              ))} */}
             </Table>
           </Col>
+        </Row>
+        <Row>
+          {user.isAdmin ? (
+            <>
+              <h3>Users</h3>
+              <div>
+                {users.map((user) => (
+                  <Row>
+                    <Col>
+                      <p>{user.name}</p>
+                    </Col>
+                    <Col>
+                      <p>{user.email}</p>
+                    </Col>
+                  </Row>
+                ))}
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </Row>
       </div>
     );
