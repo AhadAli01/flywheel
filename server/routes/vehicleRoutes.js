@@ -23,6 +23,24 @@ router.get(
   })
 );
 
+// @desc    Fetch all vehicles
+// @route   GET /api/vehicles
+// @access  Public
+
+router.get(
+  '/comments/:id',
+  asyncHandler(async (req, res) => {
+    const vehicle = await Vehicle.findById(req.params.id);
+
+    if (vehicle) {
+      res.json(vehicle.comments);
+    } else {
+      res.status(404);
+      throw new Error('vehicle not found');
+    }
+  })
+);
+
 router.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -142,41 +160,30 @@ router.post(
 
 //const { Comment } = require("../models/vehicleModel");
 
-router.post('/saveComment', (req, res) => {
-  const comment = new Comment(req.body);
+router.post(
+  '/saveComment/:id',
+  asyncHandler(async (req, res) => {
+    const comment = new Comment(req.body);
 
-  // if (comment) {
-  //   await Comment.create(comment);
-  //   res.json(comment);
-  // } else {
-  //   res.status(404);
-  //   throw new Error('Invalid user data');
-  // }
+    const vehicle = await Vehicle.findById(req.params.id);
 
-  //comment.save((err, comment) => {
-  // if(err) return res.json({success:false, err})
+    // const comment = req.body;
 
-  // Comment.find({'_id': comment._id})
-  // .populate('user')
-  // .exec((err, result) => {
-  //     if(err) return res.json({ success:false, err })
-  //     return res.status(200).json({sucess: true, result})
-  // })
-
-  comment.save(function (err, comment) {
-    if (err) {
-      console.log(err);
+    if (vehicle) {
+      // res.json(vehicle);
+      // user.watchlist.push(auction);
+      vehicle.comments.push(comment);
+      // await user.save();
+      await vehicle.save();
+      // res.json(user.watchlist);
+      res.json(vehicle.comments);
     } else {
-      Comment.find({ _id: comment._id })
-        .populate('user')
-        .exec((err, result) => {
-          if (err) return res.json({ success: false, err });
-          return res.status(200).json({ sucess: true, result });
-        });
+      res.status(404);
+      throw new Error('Cannot save a comment');
     }
-  });
-  //})
-});
+    //})
+  })
+);
 
 // @desc    Fetch single sedan
 // @route   GET /api/vehicles/sedan/:id

@@ -39,6 +39,10 @@ const VehicleScreen = ({ match }) => {
     //   setVehicle(data);
     // };
 
+    const checkAuctions = async () => {
+      await axios.post('api/auctions/expired');
+    };
+
     const fetchAuction = async () => {
       const { data } = await axios.get(`/api/auctions/${match.params.id}`);
 
@@ -51,7 +55,7 @@ const VehicleScreen = ({ match }) => {
     };
 
     const fetchComments = async () => {
-      const { data } = await axios.get('/api/vehicles/comments');
+      const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
       await setAllComments(data);
       //console.log(allComments);
     };
@@ -82,6 +86,7 @@ const VehicleScreen = ({ match }) => {
       }
     };
 
+    checkAuctions();
     fetchComments();
     fetchAuction();
     fetchBodyStyle();
@@ -108,6 +113,7 @@ const VehicleScreen = ({ match }) => {
         auction,
         config
       );
+      alert('Successfully added to watchlist');
       console.log(data);
     } catch (err) {
       alert(err.response.data.message);

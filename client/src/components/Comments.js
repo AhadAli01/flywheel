@@ -9,7 +9,7 @@ const user = JSON.parse(data);
 function Comments(props) {
   //const [allComments, setallComments] = useState({});
   const [Comment, setComment] = useState('');
-  
+
   const history = useHistory();
 
   const handleChange = (e) => {
@@ -27,7 +27,7 @@ function Comments(props) {
       };
     } else {
       alert('Please login');
-      return(<Redirect to = "/login"/>);
+      return <Redirect to='/login' />;
     }
     e.preventDefault();
     const config = {
@@ -37,12 +37,12 @@ function Comments(props) {
     };
     try {
       const { data } = await axios.post(
-        `/api/vehicles/saveComment`,
+        `/api/vehicles/saveComment/${props.vehicle}`,
         variable,
         config
       );
       alert('Comment successfully added!');
-      setComment("")
+      setComment('');
       window.location.reload();
       //props.refreshFunction(data)
     } catch (err) {
