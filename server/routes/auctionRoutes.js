@@ -238,6 +238,27 @@ router.post(
   })
 );
 
+// @desc    Remove expired auctions from watchlist
+// @route   GET /api/auctions/expiredwatchlist
+// @access  Public
+router.post(
+  '/expiredwatchlist',
+  asyncHandler(async (req, res) => {
+    const users = await User.find();
+
+    for (const user of users) {
+      const userWatchlist = user.watchlist;
+      for (let i = 0; i < userWatchlist.length; i++) {
+        if (userWatchlist[i].isSold == true) {
+          const query = {_id: user._id, 'watchlist._id': userWatchlist[i]._id};
+          const update = { $pull: { 'watchlist.$.isSold': true} };
+          await User.updateOne(query, update);
+        }
+      }
+    }
+  })
+);
+
 // @desc    Posting an auction
 // @route   POST /api/auctions
 // @access  Public
