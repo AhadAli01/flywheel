@@ -19,6 +19,10 @@ const HomeScreen = () => {
       await axios.post('api/auctions/expired');
     }
 
+    const checkWatchlists = async () => {
+      await axios.post('api/auctions/expiredwatchlist');
+    }
+
     const fetchAuctions = async () => {
       const { data } = await axios.get('/api/auctions');
 
@@ -35,8 +39,9 @@ const HomeScreen = () => {
         setWatchlistV(data);
       }
     };
-
+    
     checkAuctions();
+    checkWatchlists();
     fetchAuctions();
     fetchWatchlist();
     // const data = JSON.parse(localStorage.getItem('userData'));

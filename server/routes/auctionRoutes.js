@@ -250,8 +250,9 @@ router.post(
       const userWatchlist = user.watchlist;
       for (let i = 0; i < userWatchlist.length; i++) {
         if (userWatchlist[i].isSold == true) {
-          const query = {_id: user._id, 'watchlist._id': userWatchlist[i]._id};
-          const update = { $pull: { 'watchlist.$.isSold': true} };
+          const query = {"_id": user._id};
+          const update = { $pull: {"watchlist": {"_id": userWatchlist[i]._id} } };
+          console.log(user._id);
           await User.updateOne(query, update);
         }
       }
