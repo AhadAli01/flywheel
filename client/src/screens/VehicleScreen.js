@@ -10,15 +10,18 @@ import {
   Form,
 } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import Comments from '../components/Comments';
 import AllComments from '../components/AllComments';
 import Message from '../components/Message';
 import axios from 'axios';
+
+const data = localStorage.getItem('userData');
+const user = JSON.parse(data);
 
 const VehicleScreen = ({ match }) => {
   //const [vehicle, setVehicle] = useState({});
   const [auction, setAuction] = useState({});
   const [vehicle, setVehicle] = useState({});
+  const [Comment, setComment] = useState('');
 
   const [bodyStyle, setBodyStyle] = useState({});
   const [sedan, setSedan] = useState({});
@@ -91,6 +94,44 @@ const VehicleScreen = ({ match }) => {
     fetchAuction();
     fetchBodyStyle();
   }, [match]);
+  
+  const handleChange = (e) => {
+    setComment(e.currentTarget.value);
+  };
+
+  const onSubmit = async (e) => {
+    let variable = {};
+    if (user) {
+      variable = {
+        content: Comment,
+        user: user._id,
+        name: user.name,
+        vehicle: vehicle._id,
+      };
+    } else {
+      alert('Please login');
+      return <Redirect to='/login' />;
+    }
+    e.preventDefault();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `/api/vehicles/saveComment/${vehicle._id}`,
+        variable,
+        config
+      );
+      alert('Comment successfully added!');
+      setComment('');
+      window.location.reload();
+      //props.refreshFunction(data)
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
 
   const addWatchlistHandler = async () => {
     const config = {
@@ -243,7 +284,26 @@ const VehicleScreen = ({ match }) => {
       </Row>
       <Row>
         <Col md={6}>
-          <Comments vehicle={vehicle._id} />
+        <div>
+      <br />
+      <p> Comments</p>
+      <hr />
+      {/* Comment Lists*/}
+
+      {/* Root Comment Form*/}
+      <form style={{ display: 'flex' }} onSubmit={onSubmit}>
+        <input
+          style={{ width: '100%', boderRadius: '5px' }}
+          onChange={handleChange}
+          value={Comment}
+          placeholder='Write a comment'
+        />
+        <br />
+        <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>
+          Submit
+        </Button>
+      </form>
+    </div>
           {allComments.map((myComments) => (
             <AllComments allComment={myComments} />
           ))}
