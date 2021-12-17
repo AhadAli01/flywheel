@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
-const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus}) => {
+const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidder}) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/auction/${auctionId}`}>
@@ -39,13 +39,17 @@ const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus}) => {
         </Card.Text>
 
         {auctionStatus ? 
-        (<Card.Text as='h5'>
+        (<Card.Text as='h5' style={{ color: 'red' }}>
         {'Expired'}
         </Card.Text>) : 
-        (<Card.Text as='h5'>
+        (<Card.Text as='h5' style={{ color: 'limegreen' }}>
         {'Active'}
         </Card.Text>) 
         }
+
+        <Card.Text as='h6' style={{ color: 'purple' }}>
+        {'Winning User: ' + auctionBidder}
+        </Card.Text>
 
       </Card.Body>
     </Card>

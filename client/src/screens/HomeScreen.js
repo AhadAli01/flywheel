@@ -39,7 +39,7 @@ const HomeScreen = () => {
         setWatchlistV(data);
       }
     };
-    
+
     checkAuctions();
     checkWatchlists();
     fetchAuctions();
@@ -68,7 +68,7 @@ const HomeScreen = () => {
           <Row>
             {watchlistV.map((watchlist) => (
               <Col key={watchlist._id} xl={12}>
-                <Vehicle auctionId={watchlist._id} vehicle={watchlist.vehicle} auctionPrice={watchlist.bidPrice} auctionStatus={watchlist.isSold}/>
+                <Vehicle auctionId={watchlist._id} vehicle={watchlist.vehicle} auctionPrice={watchlist.bidPrice} auctionStatus={watchlist.isSold} auctionBidder={watchlist.winningbidder}/>
               </Col>
             ))}
           </Row>

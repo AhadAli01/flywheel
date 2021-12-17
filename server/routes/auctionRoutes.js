@@ -134,7 +134,7 @@ router.post(
         for (let i = 0; i < userWatchlist.length; i++) {
           if (userWatchlist[i]._id === auctionID) {
             const query = { _id: userF._id, 'watchlist._id': auctionID };
-            const update = { $set: { 'watchlist.$.bidPrice': bidAmount } };
+            const update = { $set: { 'watchlist.$.bidPrice': bidAmount, 'watchlist.$.winningbidder': user } };
             await User.updateOne(query, update);
           }
         }
