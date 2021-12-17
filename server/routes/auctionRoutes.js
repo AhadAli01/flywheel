@@ -27,9 +27,8 @@ router.get(
         userFound = true;
       }
     }
-
     if (userFound) {
-      Order.find()
+      Order.find({ $or: [ {buyer: userID}, {seller: userID} ] })
         .populate('buyer')
         .populate('seller')
         .populate('purchasedVehicle')
@@ -38,23 +37,6 @@ router.get(
           res.send(auction);
         });
     } else {
-      // res.send(
-      //   {
-      //     purchasedVehicle: {
-      //       make: 'Empty',
-      //       model: 'Empty',
-      //       image:
-      //         'https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png',
-      //     },
-      //   },
-      //   { seller: { name: 'Empty' } },
-      //   { buyer: { name: 'Empty' } },
-      //   { price: 0 },
-      //   { fee: 0 },
-      //   { paymentMethod: 'Empty' },
-      //   { paidDate: 'Empty' },
-      //   { deliveryDate: 'Empty' },
-      // );
       res.send([
         {
           purchasedVehicle: {

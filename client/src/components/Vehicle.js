@@ -49,7 +49,7 @@ const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidde
         </Card.Text>) 
         }
 
-        {userInfo._id == auctionBidder ? 
+        {userInfo && userInfo._id == auctionBidder ? 
         (<Card.Text as='h6'>
         {'You Are The Highest Bidder!'}
         </Card.Text>)
