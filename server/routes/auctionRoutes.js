@@ -230,7 +230,7 @@ router.post(
     } else if (dup == 0 && orderCreated == 1) {
       res.send({ successMessage: 'No dupplicates found, and created new orders' });
     } else {
-      res.send({ successMessage: 'Error creating orders' });
+      res.send({ errMessage: 'Error creating orders' });
     }
   })
 );
@@ -242,16 +242,23 @@ router.post(
   '/expiredwatchlist',
   asyncHandler(async (req, res) => {
     const users = await User.find();
+    let expired = 0;
 
     for (const user of users) {
       const userWatchlist = user.watchlist;
       for (let i = 0; i < userWatchlist.length; i++) {
         if (userWatchlist[i].isSold == true) {
+          expired = 1;
           const query = {"_id": user._id};
           const update = { $pull: {"watchlist": {"_id": userWatchlist[i]._id} } };
           await User.updateOne(query, update);
         }
       }
+    }
+    if (expired == 1) {
+      res.send({ successMessage: 'Expired auctions found in watchlists' });
+    } else {
+      res.send({ successMessage: 'Expired auctions not found in watchlists' });
     }
   })
 );
