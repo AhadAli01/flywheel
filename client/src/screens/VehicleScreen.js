@@ -156,7 +156,7 @@ const VehicleScreen = ({ match }) => {
   };
 
   vehicle.numComments = allComments.length;
-  console.log(allComments.length);
+  // console.log(allComments.length);
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -177,21 +177,14 @@ const VehicleScreen = ({ match }) => {
               <h2>{`${vehicle.year} ${vehicle.make} ${vehicle.model}`}</h2>
             </ListGroup.Item>
             <ListGroup.Item>
-              {/* value in line below not used */}
               <Rating value={4.5} text={`${vehicle.numComments} comments`} />
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${auction.bidPrice}</ListGroup.Item>
+            <ListGroup.Item>Price: $ {auction.bidPrice}</ListGroup.Item>
             <ListGroup.Item>
-              {/* Description:{' '}
-              {`TBD: Can add a description attribute or just list all remaining attributes`} */}
-              Body Style: {vehicle.bodyStyle}
-              <br />
-              Mileage/KMS: {vehicle.kms}
-              <br />
-              Engine Type: {vehicle.engineType}
-              <br />
-              Trans Type: {vehicle.transtype}
-              <br />
+              Body Style: {vehicle.bodyStyle} <br />
+              Mileage/KMS: {vehicle.kms} <br />
+              Engine Type: {vehicle.engineType} <br />
+              Trans Type: {vehicle.transtype} <br />
               PowerTrain: {vehicle.powertrain}
             </ListGroup.Item>
             <ListGroup.Item>
@@ -206,17 +199,14 @@ const VehicleScreen = ({ match }) => {
                 <Row>
                   <Col>Auction Price:</Col>
                   <Col>
-                    <strong>${auction.bidPrice}</strong>
+                    <strong>$ {auction.bidPrice}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Status:</Col>
-                  <Col>
-                    {/* (TBD) Will have to add isSold attribute to check if sold or not */}
-                    {auction.isSold ? 'Sold' : 'In Auction'}
-                  </Col>
+                  <Col>{auction.isSold ? 'Sold' : 'In Auction'}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -228,7 +218,6 @@ const VehicleScreen = ({ match }) => {
                     setBidAmount(event.target.value);
                   }}
                 />
-                {/* Check if sold and replace false */}
                 <Button
                   className='w-100'
                   type='button'
