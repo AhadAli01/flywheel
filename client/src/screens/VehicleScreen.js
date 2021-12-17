@@ -57,17 +57,27 @@ const VehicleScreen = ({ match }) => {
       // console.log(bStyle.toLowerCase());
     };
 
-    const fetchComments = async () => {
-      const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
-      await setAllComments(data);
-      //console.log(allComments);
-    };
+    // const fetchComments = async () => {
+    //   const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
+    //   await setAllComments(data);
+    //   //console.log(allComments);
+    // };
 
     checkAuctions();
     fetchAuction();
-    fetchComments();
+    //fetchComments();
     fetchBodyStyle(vehicle._id);
   }, [match]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
+      await setAllComments(data);
+      console.log(allComments);
+    };
+    fetchComments();
+  });
+
 
   const fetchBodyStyle = async (vid) => {
     // console.log(bodyStyle);
@@ -122,7 +132,7 @@ const VehicleScreen = ({ match }) => {
       setComment('');
 
       const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
-      await setAllComments(data);
+      //await setAllComments(data);
       // window.location.reload();s
       //props.refreshFunction(data)
     } catch (err) {
