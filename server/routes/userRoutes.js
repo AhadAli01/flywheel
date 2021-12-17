@@ -2,6 +2,7 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 const router = express.Router();
 import { Vehicle } from '../models/vehicleModel.js';
+import { Admin } from '../models/adminModel.js';
 import { User, Profile } from '../models/userModel.js';
 // import Profile from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
@@ -108,19 +109,12 @@ router.get(
   })
 );
 
-//fix this...
 router.post(
   '/profile',
   asyncHandler(async (req, res) => {
-    //const name = req.body.name;
-    //const email = req.body.email;
     const userID = req.body.user;
     const phone = req.body.phone;
     const address = req.body.address;
-
-    console.log(phone);
-    console.log(userID);
-    console.log(address);
 
     const newProfile = new Profile({
       user: userID,
@@ -187,6 +181,32 @@ router.post(
       res.status(404);
       throw new Error('Auction not found');
     }
+  })
+);
+
+
+router.post(
+  '/admin/:id',
+  asyncHandler(async (req, res) => {
+    const admin = new Admin(req.body);
+
+    //const user = await User.findById(req.params.id);
+
+
+    if (Admin) {
+      // res.json(vehicle);
+      // user.watchlist.push(auction);
+      //vehicle.comments.push(comment);
+      // await user.save();
+      //await vehicle.save();
+      // res.json(user.watchlist);
+      //res.json(vehicle.comments);
+      res.send(admin);
+    } else {
+      res.status(404);
+      throw new Error('Cannot save admin');
+    }
+    //})
   })
 );
 

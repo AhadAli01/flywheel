@@ -80,16 +80,38 @@ const Dashboard = ({ auth }) => {
       } catch (err) {
         alert(err.response.data.message);
       }
-
-      // .then((response) => {
-      //   if (response.data.errMessage) {
-      //     alert(response.data.errMessage);
-      //   } else {
-      //     sessionStorage.setItem('profileData', JSON.stringify(response.data));
-      //     window.location.reload();
-      //   }
-      // });
     };
+
+    const adminPost = async (event) => {
+      let variable = {}
+        variable = {
+          user: user._id,
+          name: user.name,
+          address: newAddress,
+          phone: newPhone,
+          password: user.password,
+        };
+      //event.preventDefault();
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      try {
+        const { data } = await axios.post(
+          `/api/users/admin/${user._id}`,
+          variable,
+          config
+        );
+        //window.location.reload();
+      } catch (err) {
+        alert(err.response.data.message);
+      }
+    }
+
+    if(user.isAdmin === true){
+      adminPost();
+    }
 
     return (
       <div className='App'>
