@@ -66,36 +66,40 @@ const VehicleScreen = ({ match }) => {
     checkAuctions();
     fetchAuction();
     //fetchComments();
-    fetchBodyStyle(vehicle._id);
+    // fetchBodyStyle(vehicle._id);
   }, [match]);
-
+  
   useEffect(() => {
     const fetchComments = async () => {
       const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
       await setAllComments(data);
       console.log(allComments);
     };
+
+    const fetchBodyStyle = async (vid) => {
+      // console.log(bodyStyle);
+      if (bodyStyle === 'sedan') {
+        const { data } = await axios.get(`/api/vehicles/sedan/${vid}`);
+        setSedan(data);
+        // console.log(sedan);
+      } else if (bodyStyle === 'suv') {
+        const { data } = await axios.get(`/api/vehicles/suv/${vid}`);
+        setSuv(data);
+      } else if (bodyStyle === 'truck') {
+        const { data } = await axios.get(`/api/vehicles/truck/${vid}`);
+        setTruck(data);
+      } else if (bodyStyle === 'van') {
+        const { data } = await axios.get(`/api/vehicles/van/${vid}`);
+        setVan(data);
+      }
+    };
+    
     fetchComments();
+    fetchBodyStyle(vehicle._id);
   });
+  
 
-
-  const fetchBodyStyle = async (vid) => {
-    // console.log(bodyStyle);
-    if (bodyStyle === 'sedan') {
-      const { data } = await axios.get(`/api/vehicles/sedan/${vid}`);
-      setSedan(data);
-      // console.log(sedan);
-    } else if (bodyStyle === 'suv') {
-      const { data } = await axios.get(`/api/vehicles/suv/${vid}`);
-      setSuv(data);
-    } else if (bodyStyle === 'truck') {
-      const { data } = await axios.get(`/api/vehicles/truck/${vid}`);
-      setTruck(data);
-    } else if (bodyStyle === 'van') {
-      const { data } = await axios.get(`/api/vehicles/van/${vid}`);
-      setVan(data);
-    }
-  };
+  
 
   // fetchBodyStyle(vehicle._id);
 
