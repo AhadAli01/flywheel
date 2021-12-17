@@ -168,6 +168,7 @@ router.post(
         );
       }
     }
+    res.send({ successMessage: 'Successfully updated auction status' });
   })
 );
 
@@ -180,12 +181,15 @@ router.post(
     const auctions = await Auction.find({ isSold: true });
     const d = new Date();
     d.setDate(d.getDate() + 5);
+    let dup = 0;
+    let orderCreated = 0;
 
     for (const auction of auctions) {
       const dupOrder = await Order.find({
         purchasedVehicle: auction.vehicle._id,
       });
       if (dupOrder.length > 0 || auction.winningbidder == "None") {
+        dup = 1;
         continue;
       } else { 
         const buyer = auction.winningbidder;
@@ -207,15 +211,26 @@ router.post(
           paidDate: paidDate,
           deliveryDate: deliveryDate,
         });
+        
 
         newOrder.save(function (err) {
           if (err) {
             console.log(err);
           } else {
+            orderCreated = 1;
             console.log('Successfully created order');
           }
         });
       }
+    }
+    if (dup == 1 && orderCreated == 1) {
+      res.send({ successMessage: 'Order duplicate found, and created new orders' });
+    } else if (dup == 1 && orderCreated == 0) {
+      res.send({ successMessage: 'Order duplicates found only, no new orders created' });
+    } else if (dup == 0 && orderCreated == 1) {
+      res.send({ successMessage: 'No dupplicates found, and created new orders' });
+    } else {
+      res.send({ successMessage: 'Error creating orders' });
     }
   })
 );
