@@ -23,7 +23,7 @@ const VehicleScreen = ({ match }) => {
   const [vehicle, setVehicle] = useState({});
   const [Comment, setComment] = useState('');
 
-  const [bodyStyle, setBodyStyle] = useState({});
+  const [bodyStyle, setBodyStyle] = useState('');
   const [sedan, setSedan] = useState({});
   const [suv, setSuv] = useState({});
   const [van, setVan] = useState({});
@@ -43,7 +43,7 @@ const VehicleScreen = ({ match }) => {
     // };
 
     const checkAuctions = async () => {
-      await axios.post('api/auctions/expired');
+      await axios.post('/api/auctions/expired');
     };
 
     const fetchAuction = async () => {
@@ -63,37 +63,31 @@ const VehicleScreen = ({ match }) => {
       //console.log(allComments);
     };
 
-    // const fetchBodyStyle = async () => {
-    //   console.log(bodyStyle);
-    //   if (bodyStyle === 'sedan') {
-    //     const { sedanData } = await axios.get(
-    //       `/api/vehicles/sedan/${match.params.id}`
-    //     );
-    //     setSedan(sedanData);
-    //     console.log(sedan);
-    //   } else if (bodyStyle === 'suv') {
-    //     const { suvData } = await axios.get(
-    //       `/api/vehicles/suv/${match.params.id}`
-    //     );
-    //     setSuv(suvData);
-    //   } else if (bodyStyle === 'truck') {
-    //     const { truckData } = await axios.get(
-    //       `/api/vehicles/truck/${match.params.id}`
-    //     );
-    //     setTruck(truckData);
-    //   } else if (bodyStyle === 'van') {
-    //     const { vanData } = await axios.get(
-    //       `/api/vehicles/van/${match.params.id}`
-    //     );
-    //     setVan(vanData);
-    //   }
-    // };
-
     checkAuctions();
-    fetchComments();
     fetchAuction();
-    // fetchBodyStyle();
+    fetchComments();
+    fetchBodyStyle(vehicle._id);
   }, [match]);
+
+  const fetchBodyStyle = async (vid) => {
+    // console.log(bodyStyle);
+    if (bodyStyle === 'sedan') {
+      const { data } = await axios.get(`/api/vehicles/sedan/${vid}`);
+      setSedan(data);
+      // console.log(sedan);
+    } else if (bodyStyle === 'suv') {
+      const { data } = await axios.get(`/api/vehicles/suv/${vid}`);
+      setSuv(data);
+    } else if (bodyStyle === 'truck') {
+      const { data } = await axios.get(`/api/vehicles/truck/${vid}`);
+      setTruck(data);
+    } else if (bodyStyle === 'van') {
+      const { data } = await axios.get(`/api/vehicles/van/${vid}`);
+      setVan(data);
+    }
+  };
+
+  // fetchBodyStyle(vehicle._id);
 
   const handleChange = (e) => {
     setComment(e.currentTarget.value);
@@ -228,11 +222,31 @@ const VehicleScreen = ({ match }) => {
               Body Style: {vehicle.bodyStyle} <br />
               Mileage/KMS: {vehicle.kms} <br />
               Engine Type: {vehicle.engineType} <br />
-              Trans Type: {vehicle.transtype} <br />
+              Trans Type: {vehicle.transType} <br />
               PowerTrain: {vehicle.powertrain}
             </ListGroup.Item>
             <ListGroup.Item>
-              {bodyStyle === 'sedan' ? <>No. of Doors: {1 + 1}</> : <>bye</>}
+              {bodyStyle === 'sedan' ? (
+                <>
+                  No. of Doors: {sedan.noOfDoors} <br />
+                  Length: {sedan.length} <br />
+                </>
+              ) : bodyStyle === 'suv' ? (
+                <>
+                  Trunk Size: {suv.trunkSize} <br />
+                </>
+              ) : bodyStyle === 'van' ? (
+                <>
+                  No. of Seats: {van.noOfSeats} <br />
+                </>
+              ) : bodyStyle === 'truck' ? (
+                <>
+                  Tow Capacity: {truck.towCapacity} <br />
+                  Bedweight Capacity: {truck.bedweightCapacity} <br />
+                </>
+              ) : (
+                <hr />
+              )}
             </ListGroup.Item>
           </ListGroup>
         </Col>

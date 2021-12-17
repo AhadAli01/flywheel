@@ -3,7 +3,13 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
-const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidder}) => {
+const Vehicle = ({
+  auctionId,
+  vehicle,
+  auctionPrice,
+  auctionStatus,
+  auctionBidder,
+}) => {
   const userInfo = JSON.parse(localStorage.getItem('userData'));
 
   return (
@@ -28,7 +34,7 @@ const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidde
         {/* For below have to get rating from  Review (stars) and num reviews (the 4.5 and 15)*/}
         <Card.Text as='div'>
           {/* value in line below not used */}
-          <Rating value={4.5} text={`${vehicle.numComments} comments`} />
+          {/* <Rating value={4.5} text={`${vehicle.numComments} comments`} /> */}
         </Card.Text>
 
         <Card.Text as='div'>
@@ -40,26 +46,21 @@ const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidde
           ${auctionPrice}
         </Card.Text>
 
-        {auctionStatus ? 
-        (<Card.Text as='h5' style={{ color: 'red' }}>
-        {'Expired'}
-        </Card.Text>) : 
-        (<Card.Text as='h5' style={{ color: 'limegreen' }}>
-        {'Active'}
-        </Card.Text>) 
-        }
+        {auctionStatus ? (
+          <Card.Text as='h5' style={{ color: 'red' }}>
+            {'Expired'}
+          </Card.Text>
+        ) : (
+          <Card.Text as='h5' style={{ color: 'limegreen' }}>
+            {'Active'}
+          </Card.Text>
+        )}
 
-        {userInfo && userInfo._id == auctionBidder ? 
-        (<Card.Text as='h6'>
-        {'You Are The Highest Bidder!'}
-        </Card.Text>)
-         : 
-         (<Card.Text as='h6'>
-         {'Highest Bidder: ' + auctionBidder}
-         </Card.Text>)
-         }
-        
-
+        {userInfo && userInfo._id == auctionBidder ? (
+          <Card.Text as='h6'>{'You Are The Highest Bidder!'}</Card.Text>
+        ) : (
+          <Card.Text as='h6'>{'Highest Bidder: ' + auctionBidder}</Card.Text>
+        )}
       </Card.Body>
     </Card>
   );
