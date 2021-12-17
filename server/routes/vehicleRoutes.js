@@ -191,7 +191,7 @@ router.post(
 router.get(
   '/sedan/:id',
   asyncHandler(async (req, res) => {
-    const sedan = await Sedan.findOne({ user: req.params.id });
+    const sedan = await Sedan.findOne({ vehicle: req.params.id });
 
     if (sedan) {
       res.json(sedan);
@@ -208,7 +208,7 @@ router.get(
 router.get(
   '/suv/:id',
   asyncHandler(async (req, res) => {
-    const suv = await Suv.findOne({ user: req.params.id });
+    const suv = await Suv.findOne({ vehicle: req.params.id });
 
     if (suv) {
       res.json(suv);
@@ -225,7 +225,7 @@ router.get(
 router.get(
   '/truck/:id',
   asyncHandler(async (req, res) => {
-    const truck = await Truck.findOne({ user: req.params.id });
+    const truck = await Truck.findOne({ vehicle: req.params.id });
 
     if (truck) {
       res.json(truck);
@@ -242,7 +242,7 @@ router.get(
 router.get(
   '/van/:id',
   asyncHandler(async (req, res) => {
-    const van = await Van.findOne({ user: req.params.id });
+    const van = await Van.findOne({ vehicle: req.params.id });
 
     if (van) {
       res.json(van);
