@@ -203,9 +203,9 @@ router.post(
       const dupOrder = await Order.find({
         purchasedVehicle: auction.vehicle._id,
       });
-      if (dupOrder.length > 0) {
+      if (dupOrder.length > 0 || auction.winningbidder == "None") {
         continue;
-      } else {
+      } else { 
         const buyer = auction.winningbidder;
         const seller = auction.seller._id;
         const purchasedVehicle = auction.vehicle._id;
