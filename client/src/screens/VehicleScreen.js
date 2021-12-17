@@ -63,38 +63,38 @@ const VehicleScreen = ({ match }) => {
       //console.log(allComments);
     };
 
-    const fetchBodyStyle = async () => {
-      console.log(bodyStyle);
-      if (bodyStyle === 'sedan') {
-        const { sedanData } = await axios.get(
-          `/api/vehicles/sedan/${match.params.id}`
-        );
-        setSedan(sedanData);
-        console.log(sedan);
-      } else if (bodyStyle === 'suv') {
-        const { suvData } = await axios.get(
-          `/api/vehicles/suv/${match.params.id}`
-        );
-        setSuv(suvData);
-      } else if (bodyStyle === 'truck') {
-        const { truckData } = await axios.get(
-          `/api/vehicles/truck/${match.params.id}`
-        );
-        setTruck(truckData);
-      } else if (bodyStyle === 'van') {
-        const { vanData } = await axios.get(
-          `/api/vehicles/van/${match.params.id}`
-        );
-        setVan(vanData);
-      }
-    };
+    // const fetchBodyStyle = async () => {
+    //   console.log(bodyStyle);
+    //   if (bodyStyle === 'sedan') {
+    //     const { sedanData } = await axios.get(
+    //       `/api/vehicles/sedan/${match.params.id}`
+    //     );
+    //     setSedan(sedanData);
+    //     console.log(sedan);
+    //   } else if (bodyStyle === 'suv') {
+    //     const { suvData } = await axios.get(
+    //       `/api/vehicles/suv/${match.params.id}`
+    //     );
+    //     setSuv(suvData);
+    //   } else if (bodyStyle === 'truck') {
+    //     const { truckData } = await axios.get(
+    //       `/api/vehicles/truck/${match.params.id}`
+    //     );
+    //     setTruck(truckData);
+    //   } else if (bodyStyle === 'van') {
+    //     const { vanData } = await axios.get(
+    //       `/api/vehicles/van/${match.params.id}`
+    //     );
+    //     setVan(vanData);
+    //   }
+    // };
 
     checkAuctions();
     fetchComments();
     fetchAuction();
-    fetchBodyStyle();
+    // fetchBodyStyle();
   }, [match]);
-  
+
   const handleChange = (e) => {
     setComment(e.currentTarget.value);
   };
@@ -119,14 +119,17 @@ const VehicleScreen = ({ match }) => {
       },
     };
     try {
-      const { data } = await axios.post(
+      const { data: pData } = await axios.post(
         `/api/vehicles/saveComment/${vehicle._id}`,
         variable,
         config
       );
       alert('Comment successfully added!');
       setComment('');
-      window.location.reload();
+
+      const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
+      await setAllComments(data);
+      // window.location.reload();s
       //props.refreshFunction(data)
     } catch (err) {
       alert(err.response.data.message);
@@ -284,26 +287,29 @@ const VehicleScreen = ({ match }) => {
       </Row>
       <Row>
         <Col md={6}>
-        <div>
-      <br />
-      <p> Comments</p>
-      <hr />
-      {/* Comment Lists*/}
+          <div>
+            <br />
+            <p> Comments</p>
+            <hr />
+            {/* Comment Lists*/}
 
-      {/* Root Comment Form*/}
-      <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-        <input
-          style={{ width: '100%', boderRadius: '5px' }}
-          onChange={handleChange}
-          value={Comment}
-          placeholder='Write a comment'
-        />
-        <br />
-        <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>
-          Submit
-        </Button>
-      </form>
-    </div>
+            {/* Root Comment Form*/}
+            <form style={{ display: 'flex' }} onSubmit={onSubmit}>
+              <input
+                style={{ width: '100%', boderRadius: '5px' }}
+                onChange={handleChange}
+                value={Comment}
+                placeholder='Write a comment'
+              />
+              <br />
+              <Button
+                style={{ width: '20%', height: '52px' }}
+                onClick={onSubmit}
+              >
+                Submit
+              </Button>
+            </form>
+          </div>
           {allComments.map((myComments) => (
             <AllComments allComment={myComments} />
           ))}
