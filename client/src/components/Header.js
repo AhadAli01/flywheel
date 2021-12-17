@@ -16,8 +16,15 @@ const Header = () => {
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
-          <LinkContainer to='/'>
+          <img
+            src='https://goservicexpert.com/uploads/services/71386.png'
+            width='40'
+            height='40'
+          ></img>
+          <LinkContainer to='/' style={{ paddingLeft: '10px' }}>
+            {/* <> */}
             <Navbar.Brand>Flywheel</Navbar.Brand>
+            {/* </> */}
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
