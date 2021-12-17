@@ -35,8 +35,9 @@ const Dashboard = ({ auth }) => {
       setNewPhone(data.phone);
       setNewAddress(data.address);
     };
-    getOrders();
+    
     createOrders();
+    getOrders();
     getProfile();
   }, []);
 
