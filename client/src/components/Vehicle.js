@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
 const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidder}) => {
+  const userInfo = JSON.parse(localStorage.getItem('userData'));
+
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/auction/${auctionId}`}>
@@ -47,9 +49,16 @@ const Vehicle = ({ auctionId, vehicle, auctionPrice, auctionStatus, auctionBidde
         </Card.Text>) 
         }
 
-        <Card.Text as='h6' style={{ color: 'purple' }}>
-        {'Winning User: ' + auctionBidder}
-        </Card.Text>
+        {userInfo._id == auctionBidder ? 
+        (<Card.Text as='h6'>
+        {'You Are The Highest Bidder!'}
+        </Card.Text>)
+         : 
+         (<Card.Text as='h6'>
+         {'Highest Bidder: ' + auctionBidder}
+         </Card.Text>)
+         }
+        
 
       </Card.Body>
     </Card>
