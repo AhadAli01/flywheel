@@ -182,6 +182,7 @@ const Dashboard = ({ auth }) => {
                 <tr>
                   <th>Vehicle Name/Image</th>
                   <th>Seller Name</th>
+                  <th>Buyer Name</th>
                   <th>Total Price</th>
                   <th>Payment Method</th>
                   <th>Paid Date</th>
@@ -208,6 +209,11 @@ const Dashboard = ({ auth }) => {
                     <td>
                       <Col xl={12}>
                         <OrderRows orderInfo={order.seller.name} />
+                      </Col>
+                    </td>
+                    <td>
+                      <Col xl={12}>
+                        <OrderRows orderInfo={order.buyer.name} />
                       </Col>
                     </td>
                     <td>
