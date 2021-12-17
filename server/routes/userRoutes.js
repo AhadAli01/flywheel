@@ -210,4 +210,12 @@ router.post(
   })
 );
 
+router.get(
+  '/admin/:id',
+  asyncHandler(async (req, res) => {
+    const admin = await Admin.find({});
+    res.json(admin);
+  })
+);
+
 export default router;

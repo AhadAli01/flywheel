@@ -13,6 +13,7 @@ const Dashboard = ({ auth }) => {
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [orders, setOrders] = useState([]);
+  const [admin, setAdmin] = useState([]);
 
   useEffect(() => {
     if (auth == 0) {
@@ -35,6 +36,16 @@ const Dashboard = ({ auth }) => {
       setNewPhone(data.phone);
       setNewAddress(data.address);
     };
+
+    const fetchAdmin = async () => {
+      const { data } = await axios.get(`/api/users/admin/${user._id}`);
+      await setAdmin(data);
+      //console.log(allComments);
+    };
+    
+    if(user.isAdmin === true){
+      fetchAdmin();
+    }
     
     createOrders();
     getOrders();
@@ -90,6 +101,8 @@ const Dashboard = ({ auth }) => {
           address: newAddress,
           phone: newPhone,
           password: user.password,
+          officeLoc: "Disney Springs",
+          position: "Senior",
         };
       //event.preventDefault();
       const config = {
