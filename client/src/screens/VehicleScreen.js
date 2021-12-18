@@ -127,17 +127,15 @@ const VehicleScreen = ({ match }) => {
       },
     };
     try {
-      const { data: pData } = await axios.post(
+      const { data } = await axios.post(
         `/api/vehicles/saveComment/${vehicle._id}`,
         variable,
         config
       );
       alert('Comment successfully added!');
       setComment('');
-
-      const { data } = await axios.get(`/api/vehicles/comments/${vehicle._id}`);
       //await setAllComments(data);
-      // window.location.reload();s
+      //window.location.reload();
       //props.refreshFunction(data)
     } catch (err) {
       alert(err.response.data.message);
