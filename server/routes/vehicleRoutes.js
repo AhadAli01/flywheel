@@ -15,13 +15,13 @@ import {
 // @route   GET /api/vehicles
 // @access  Public
 
-router.get(
-  '/comments',
-  asyncHandler(async (req, res) => {
-    const comment = await Comment.find({});
-    res.json(comment);
-  })
-);
+// router.get(
+//   '/comments',
+//   asyncHandler(async (req, res) => {
+//     const comment = await Comment.find({});
+//     res.json(comment);
+//   })
+// );
 
 // @desc    Fetch all vehicles
 // @route   GET /api/vehicles
