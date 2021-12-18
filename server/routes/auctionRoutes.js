@@ -28,7 +28,53 @@ router.get(
       }
     }
     if (userFound) {
-      Order.find({ $or: [ {buyer: userID}, {seller: userID} ] })
+      Order.find({ $or: [{ buyer: userID }, { seller: userID }] })
+        .populate('buyer')
+        .populate('seller')
+        .populate('purchasedVehicle')
+        .exec(function (err, auction) {
+          if (err) return handleError(err);
+          res.send(auction);
+        });
+    } else {
+      res.send([
+        {
+          purchasedVehicle: {
+            make: 'Empty',
+            model: 'Empty',
+            image:
+              'https://www.backes-auction.com/uploads/blog/b3b367ada3411e1bb6834ef56103774b.png',
+          },
+          seller: { name: 'Empty' },
+          buyer: { name: 'Empty' },
+          price: 0,
+          fee: 0,
+          paymentMethod: 'Empty',
+          paidDate: 'Empty',
+          deliveryDate: 'Empty',
+        },
+      ]);
+    }
+  })
+);
+
+// @desc    Fetch all orders
+// @route   GET /api/auctions/orders
+// @access  Public
+router.get(
+  '/orders',
+  asyncHandler(async (req, res) => {
+    // const userID = req.params.id;
+    const orders = await Order.find();
+    // let userFound = false;
+
+    // for (const order of orders) {
+    //   if (order.buyer._id == userID || order.seller._id == userID) {
+    //     userFound = true;
+    //   }
+    // }
+    if (orders) {
+      Order.find()
         .populate('buyer')
         .populate('seller')
         .populate('purchasedVehicle')
@@ -116,7 +162,12 @@ router.post(
         for (let i = 0; i < userWatchlist.length; i++) {
           if (userWatchlist[i]._id === auctionID) {
             const query = { _id: userF._id, 'watchlist._id': auctionID };
-            const update = { $set: { 'watchlist.$.bidPrice': bidAmount, 'watchlist.$.winningbidder': user } };
+            const update = {
+              $set: {
+                'watchlist.$.bidPrice': bidAmount,
+                'watchlist.$.winningbidder': user,
+              },
+            };
             await User.updateOne(query, update);
           }
         }
@@ -188,10 +239,10 @@ router.post(
       const dupOrder = await Order.find({
         purchasedVehicle: auction.vehicle._id,
       });
-      if (dupOrder.length > 0 || auction.winningbidder == "None") {
+      if (dupOrder.length > 0 || auction.winningbidder == 'None') {
         dup = 1;
         continue;
-      } else { 
+      } else {
         const buyer = auction.winningbidder;
         const seller = auction.seller._id;
         const purchasedVehicle = auction.vehicle._id;
@@ -211,7 +262,6 @@ router.post(
           paidDate: paidDate,
           deliveryDate: deliveryDate,
         });
-        
 
         newOrder.save(function (err) {
           if (err) {
@@ -224,11 +274,17 @@ router.post(
       }
     }
     if (dup == 1 && orderCreated == 1) {
-      res.send({ successMessage: 'Order duplicate found, and created new orders' });
+      res.send({
+        successMessage: 'Order duplicate found, and created new orders',
+      });
     } else if (dup == 1 && orderCreated == 0) {
-      res.send({ successMessage: 'Order duplicates found only, no new orders created' });
+      res.send({
+        successMessage: 'Order duplicates found only, no new orders created',
+      });
     } else if (dup == 0 && orderCreated == 1) {
-      res.send({ successMessage: 'No dupplicates found, and created new orders' });
+      res.send({
+        successMessage: 'No dupplicates found, and created new orders',
+      });
     } else {
       res.send({ errMessage: 'Error creating orders' });
     }
@@ -249,8 +305,10 @@ router.post(
       for (let i = 0; i < userWatchlist.length; i++) {
         if (userWatchlist[i].isSold == true) {
           expired = 1;
-          const query = {"_id": user._id};
-          const update = { $pull: {"watchlist": {"_id": userWatchlist[i]._id} } };
+          const query = { _id: user._id };
+          const update = {
+            $pull: { watchlist: { _id: userWatchlist[i]._id } },
+          };
           await User.updateOne(query, update);
         }
       }

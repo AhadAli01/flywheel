@@ -49,15 +49,23 @@ const Dashboard = ({ auth }) => {
       await setUsers(data);
     };
 
+    const fetchOrders = async () => {
+      const { data } = await axios.get(`/api/auctions/orders`);
+      await setOrders(data);
+    };
+
+    
+    createOrders();
+    getProfile();
+    fetchUsers();
+    
     if (user.isAdmin === true) {
       // adminPost();
       fetchAdmin();
+      fetchOrders();
+    } else {
+      getOrders();
     }
-
-    createOrders();
-    getOrders();
-    getProfile();
-    fetchUsers();
   }, []);
 
   const history = useHistory();
