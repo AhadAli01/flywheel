@@ -108,11 +108,54 @@ const Dashboard = ({ auth }) => {
           <Col>
             {user.isAdmin ? (
               <>
-                <p>Name:{admin.name}</p>
-                <p>Phone: {admin.phone}</p>
-                <p>Address: {admin.address}</p>
-                <p>Position: {admin.position}</p>
-                <p>Office Location: {admin.officeLoc}</p>
+              <h2 style={{ paddingLeft: '75px' }} >Admin</h2>
+              {/* <Table striped bordered hover responsive className='table-sm'>
+              <thead>
+                <tr>
+                <th>Name:{admin.name}</th>
+                <th>Phone: {admin.phone}</th>
+                <th>Address: {admin.address}</th>
+                <th>Position: {admin.position}</th>
+                <th>Office Location: {admin.officeLoc}</th>
+                </tr>
+              </thead>
+              </Table> */}
+              <Form style={{ paddingBottom: '30px' }}>
+                  <input
+                    className='parbirInputs'
+                    type='name'
+                    value={admin.name}
+                    readOnly
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='phone'
+                    name='phone'
+                    value={admin.phone}
+                    placeholder='No Phone'
+                    readOnly
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='address'
+                    value={admin.address}
+                    placeholder='Enter Address'
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='officeLoc'
+                    name='officeLoc'
+                    value={admin.officeLoc}
+                    readOnly
+                  />
+                  <input
+                    className='parbirInputs'
+                    type='position'
+                    name='position'
+                    value={admin.position}
+                    readOnly
+                  />
+                </Form>
               </>
             ) : (
               <>
@@ -237,25 +280,41 @@ const Dashboard = ({ auth }) => {
           </Col>
         </Row>
         <Row>
+        <Col md={12} style={{ paddingBottom: '30px' }}>
           {user.isAdmin ? (
             <>
               <h3>Users</h3>
-              <div>
+              <div> 
+              <Table striped bordered hover responsive className='table-sm'>
+              <thead>
+                <tr>
+                <th>Name</th>
+                <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
                 {users.map((user) => (
-                  <Row>
+                  <tr>
+                    <td>
                     <Col>
                       <p>{user.name}</p>
-                    </Col>
-                    <Col>
+                      </Col>
+                      </td>
+                      <td>
+                      <Col>
                       <p>{user.email}</p>
                     </Col>
-                  </Row>
+                    </td>
+                    </tr>
                 ))}
+              </tbody>
+              </Table>
               </div>
             </>
           ) : (
             <></>
           )}
+          </Col>
         </Row>
       </div>
     );
