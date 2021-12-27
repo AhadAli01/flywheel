@@ -2,7 +2,7 @@
 
 ### To Run
 
-First, please ensure you have npm and node.js installed. Next, please type
+After you have cloned this git repository, please ensure you have npm and node.js installed. Next, please type
 
 ```bash
 cd client
