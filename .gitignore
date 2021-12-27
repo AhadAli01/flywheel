@@ -14,7 +14,7 @@
 
 # misc
 .DS_Store
-# .env so you guys can get this and its private repo anyway
+.env 
 .env.local
 .env.development.local
 .env.test.local
