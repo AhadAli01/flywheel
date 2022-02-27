@@ -6,22 +6,21 @@
 ![deployed-on-heroku](https://user-images.githubusercontent.com/66704595/155449267-ee5d4f1f-a135-435e-96fa-14e255dfa75f.svg)
 
 # Flywheel 🚗
+![Screenshot 2022-02-26 193213](https://user-images.githubusercontent.com/66704595/155865869-dd136f6e-873d-4be3-aafa-d0c01ff16d11.png)
 
-
-
-## About
+## About ✍️
 
 To build flywheel, we utilized a React front end which communicates to our Node.js/Express backend API via HTTP Requests. Our server/API directly communicates with the database via Mongoose queries, and we chose MongoDB as our (NoSQL) cloud database.
 
-## Live Demo
+## Live Demo ☁️
 
 Flywheel was deployed on Heroku, and can be accessed [here.](https://flywheelapp.herokuapp.com/)
 
-## API Documentation
+## API Documentation 🚀
 
 The backend API was documented and tested using the Postman app. The documentation which was generated can be found [here.](https://documenter.getpostman.com/view/18239776/UVRAH74a)
 
-### To Run
+### To Run 🖥️
 
 After you have cloned this git repository, please ensure you have npm and node.js installed. Next, please type
 
